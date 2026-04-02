@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://f2k8n5p7v3r1"]
+[gd_scene load_steps=5 format=3 uid="uid://f2k8n5p7v3r1"]
 
 [ext_resource type="Script" path="res://scripts/ui/chart_ui.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/charts/candlestick_chart.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/charts/indicator_panel.gd" id="3"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_chart_symbol"]
 font_size = 28
@@ -123,15 +125,36 @@ anchor_bottom = 1.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.7
+anchor_bottom = 0.55
+script = ExtResource("2")
+
+[node name="RSIPanel" type="Control" parent="VBoxContainer/ChartPanel/ChartArea"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 0.72
+visible = false
+script = ExtResource("3")
+indicator_type = 0
+
+[node name="MACDPanel" type="Control" parent="VBoxContainer/ChartPanel/ChartArea"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 0.72
+anchor_right = 1.0
+anchor_bottom = 0.92
+visible = false
+script = ExtResource("3")
+indicator_type = 1
 
 [node name="VolumeChart" type="Control" parent="VBoxContainer/ChartPanel/ChartArea"]
 layout_mode = 1
 anchors_preset = 12
-anchor_top = 1.0
+anchor_top = 0.92
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -120.0
+visible = false
 
 [node name="IndicatorsRow" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

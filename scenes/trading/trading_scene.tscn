@@ -39,83 +39,89 @@ offset_bottom = 50.0
 custom_minimum_size = Vector2(0, 40)
 text = "← Back"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 60.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 8
+offset_left = 5.0
+offset_top = 55.0
+offset_right = -5.0
+offset_bottom = -5.0
+horizontal_scroll_mode = 0
 
-[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="SymbolLabel" type="Label" parent="VBoxContainer/Header"]
+[node name="SymbolLabel" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
 layout_mode = 2
 text = "BTC/USDT"
 label_settings = SubResource("LabelSettings_symbol")
 
-[node name="PriceLabel" type="Label" parent="VBoxContainer/Header"]
+[node name="PriceLabel" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "$60,000.00"
 label_settings = SubResource("LabelSettings_price")
 
-[node name="ChangeLabel" type="Label" parent="VBoxContainer/Header"]
+[node name="ChangeLabel" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
 layout_mode = 2
 text = "+2.5%"
 label_settings = SubResource("LabelSettings_change")
 
-[node name="PortfolioInfo" type="PanelContainer" parent="VBoxContainer"]
+[node name="PortfolioInfo" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PortfolioVBox" type="VBoxContainer" parent="VBoxContainer/PortfolioInfo"]
+[node name="PortfolioVBox" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PortfolioInfo"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
-[node name="BalanceLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
+[node name="BalanceLabel" type="Label" parent="ScrollContainer/VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "💰 Balance: $10,000.00"
 
-[node name="EquityLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
+[node name="EquityLabel" type="Label" parent="ScrollContainer/VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "📊 Equity: $10,000.00"
 
-[node name="MarginLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
+[node name="MarginLabel" type="Label" parent="ScrollContainer/VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "🟢 Margin Used: 0.0%"
 
-[node name="TradePanel" type="PanelContainer" parent="VBoxContainer"]
+[node name="TradePanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="TradeContent" type="VBoxContainer" parent="VBoxContainer/TradePanel"]
+[node name="TradeContent" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/TradePanel"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
-[node name="SymbolOption" type="OptionButton" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="TabRow" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
-item_count = 5
-popup/item_0/text = "BTC/USDT"
-popup/item_1/text = "ETH/USDT"
-popup/item_1/id = 1
-popup/item_2/text = "SOL/USDT"
-popup/item_2/id = 2
-popup/item_3/text = "BNB/USDT"
-popup/item_3/id = 3
-popup/item_4/text = "XRP/USDT"
-popup/item_4/id = 4
+alignment = 1
 
-[node name="LeverageLabel" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="MarketTab" type="Button" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TabRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "Market"
+
+[node name="LimitTab" type="Button" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TabRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "Limit"
+
+[node name="SymbolOption" type="OptionButton" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
+layout_mode = 2
+
+[node name="LeverageLabel" type="Label" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 text = "Leverage: 1x"
 
-[node name="LeverageSlider" type="HSlider" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="LeverageSlider" type="HSlider" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
@@ -123,36 +129,156 @@ max_value = 100.0
 step = 1.0
 value = 1.0
 
-[node name="AmountInput" type="LineEdit" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="AmountInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
-placeholder_text = "Amount in $"
+placeholder_text = "Amount"
 
-[node name="MarginPreview" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="MarginPreview" type="Label" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 text = "Margin required: $0.00"
 
-[node name="LiquidationLabel" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="LiquidationLabel" type="Label" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 text = "Liquidation distance: 0.0%"
 
-[node name="ButtonRow" type="HBoxContainer" parent="VBoxContainer/TradePanel/TradeContent"]
+[node name="TPSLRow" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TPLabel" type="Label" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TPSLRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(30, 0)
+text = "TP:"
+
+[node name="TPInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TPSLRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Take Profit Price"
+
+[node name="SLLabel" type="Label" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TPSLRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(30, 0)
+text = "SL:"
+
+[node name="SLInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/TPSLRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Stop Loss Price"
+
+[node name="ButtonRow" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 20
 
-[node name="BuyButton" type="Button" parent="VBoxContainer/TradePanel/TradeContent/ButtonRow"]
+[node name="BuyButton" type="Button" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/ButtonRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 custom_minimum_size = Vector2(0, 70)
 text = "🟢 BUY LONG"
 
-[node name="SellButton" type="Button" parent="VBoxContainer/TradePanel/TradeContent/ButtonRow"]
+[node name="SellButton" type="Button" parent="ScrollContainer/VBoxContainer/TradePanel/TradeContent/ButtonRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 custom_minimum_size = Vector2(0, 70)
 text = "🔴 SELL SHORT"
 
-[node name="OpenTradesList" type="ItemList" parent="VBoxContainer"]
+[node name="LimitOrderPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 180)
+visible = false
+
+[node name="LimitContent" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/LimitOrderPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LimitHeader" type="Label" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent"]
+layout_mode = 2
+text = "📋 Limit Order"
+label_settings = SubResource("LabelSettings_symbol")
+
+[node name="LimitPriceInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent"]
+layout_mode = 2
+placeholder_text = "Limit Price"
+
+[node name="LimitAmountInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent"]
+layout_mode = 2
+placeholder_text = "Position Size"
+
+[node name="LimitTPSLRow" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LimitTPLabel" type="Label" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitTPSLRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(30, 0)
+text = "TP:"
+
+[node name="LimitTPInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitTPSLRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "TP Price"
+
+[node name="LimitSLLabel" type="Label" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitTPSLRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(30, 0)
+text = "SL:"
+
+[node name="LimitSLInput" type="LineEdit" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitTPSLRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "SL Price"
+
+[node name="LimitButtonRow" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="LimitBuyBtn" type="Button" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitButtonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 60)
+text = "🟢 Buy Limit"
+
+[node name="LimitSellBtn" type="Button" parent="ScrollContainer/VBoxContainer/LimitOrderPanel/LimitContent/LimitButtonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 60)
+text = "🔴 Sell Limit"
+
+[node name="OpenTradesPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 200)
+
+[node name="OpenTradesHeader" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/OpenTradesPanel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer/OpenTradesPanel/OpenTradesHeader"]
+layout_mode = 2
+text = "📈 Open Positions"
+label_settings = SubResource("LabelSettings_change")
+
+[node name="CloseAllBtn" type="Button" parent="ScrollContainer/VBoxContainer/OpenTradesPanel/OpenTradesHeader"]
+layout_mode = 2
+text = "Close All"
+
+[node name="OpenTradesContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/OpenTradesPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PendingOrdersPanel" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PendingOrdersHeader" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PendingOrdersPanel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer/PendingOrdersPanel/PendingOrdersHeader"]
+layout_mode = 2
+text = "📋 Pending Orders"
+
+[node name="CancelAllBtn" type="Button" parent="ScrollContainer/VBoxContainer/PendingOrdersPanel/PendingOrdersHeader"]
+layout_mode = 2
+text = "Cancel All"
+
+[node name="PendingOrdersContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PendingOrdersPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4

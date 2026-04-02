@@ -32,6 +32,7 @@ OrderBookManager="*res://scripts/orderbook/orderbook_manager.gd"
 FirebaseManager="*res://scripts/firebase/firebase_manager.gd"
 DataManager="*res://scripts/network/data_manager.gd"
 SoundManager="*res://scripts/managers/sound_manager.gd"
+OrderManager="*res://scripts/managers/order_manager.gd"
 
 [display]
 
