@@ -4,6 +4,8 @@
 ## ============================================
 extends Node
 
+const NP = preload("res://scripts/enums/notification_priority.gd")
+
 ## ---- إشارات ----
 signal notification_shown(title: String, message: String, priority: int)
 signal vibration_triggered(pattern: String)
@@ -36,7 +38,7 @@ var _vibrator_plugin: Object = null  ## سيتم ربطه بـ Android Plugin
 static func send_notification(
         title: String,
         message: String,
-        priority: int = NotificationPriority.INFO,
+        priority: int = NP.INFO,
         show_vibration: bool = true
 ) -> void:
         var manager: Node = Engine.get_main_loop().root.get_node_or_null("/root/NotificationManager")
@@ -88,15 +90,15 @@ func _vibrate_for_priority(priority: int) -> void:
         var pattern_key: String
         
         match priority:
-                NotificationPriority.INFO:
+                NP.INFO:
                         pattern_key = "light"
-                NotificationPriority.SUCCESS:
+                NP.SUCCESS:
                         pattern_key = "success"
-                NotificationPriority.WARNING:
+                NP.WARNING:
                         pattern_key = "medium"
-                NotificationPriority.HIGH:
+                NP.HIGH:
                         pattern_key = "margin_call"
-                NotificationPriority.CRITICAL:
+                NP.CRITICAL:
                         pattern_key = "liquidation"
                 _:
                         pattern_key = "light"
@@ -155,9 +157,9 @@ func _android_vibrate_long(_vibrator: Object, _pattern: Array) -> void:
 ## ============================================
 func _get_priority_icon(priority: int) -> String:
         match priority:
-                NotificationPriority.INFO: return "ℹ️"
-                NotificationPriority.SUCCESS: return "✅"
-                NotificationPriority.WARNING: return "⚠️"
-                NotificationPriority.HIGH: return "🚨"
-                NotificationPriority.CRITICAL: return "💥"
+                NP.INFO: return "ℹ️"
+                NP.SUCCESS: return "✅"
+                NP.WARNING: return "⚠️"
+                NP.HIGH: return "🚨"
+                NP.CRITICAL: return "💥"
                 _: return "📌"

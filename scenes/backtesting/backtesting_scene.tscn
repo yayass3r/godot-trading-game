@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://j4n7p2q9x6m1"]
+[gd_scene load_steps=3 format=3 uid="uid://j4n7p2q9x6m1"]
 
 [ext_resource type="Script" path="res://scripts/ui/backtesting_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bt_title"]
+font_size = 24
+font_color = Color(1, 1, 1, 1)
 
 [node name="BacktestingScene" type="Control"]
 layout_mode = 3
@@ -18,13 +22,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 
@@ -33,37 +46,26 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="HeaderRow" type="HBoxContainer" parent="ScrollContainer/MainVBox"]
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox/HeaderRow"]
-layout_mode = 2
-size_flags_horizontal = 3
+horizontal_alignment = 1
 text = "🧪 Backtesting"
 label_settings = SubResource("LabelSettings_bt_title")
 
-[node name="BackButton" type="Button" parent="ScrollContainer/MainVBox/HeaderRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 40)
-text = "← Back"
-
-[node name="StrategyPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="StrategyPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 
-[node name="StrategyTitle" type="Label" parent="ScrollContainer/MainVBox/StrategyPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 35.0
+[node name="StrategyContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/StrategyPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StrategyTitle" type="Label" parent="ScrollContainer/MainVBox/StrategyPanel/StrategyContent"]
+layout_mode = 2
 text = "📋 Strategy Selection"
 
-[node name="StrategyList" type="ItemList" parent="ScrollContainer/MainVBox/StrategyPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 280.0
+[node name="StrategyList" type="ItemList" parent="ScrollContainer/MainVBox/StrategyPanel/StrategyContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 200)
 item_count = 5
 item_0/text = "SMA Crossover"
 item_1/text = "RSI Oversold/Overbought"
@@ -71,40 +73,36 @@ item_2/text = "Bollinger Bounce"
 item_3/text = "MACD Signal"
 item_4/text = "Volume Spike"
 
-[node name="ConfigPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="ConfigPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 
-[node name="ConfigTitle" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 35.0
+[node name="ConfigContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ConfigPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConfigTitle" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent"]
+layout_mode = 2
 text = "⚙️ Configuration"
 
-[node name="ConfigGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ConfigPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 280.0
+[node name="ConfigGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent"]
+layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
 
-[node name="SymbolLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="SymbolLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Symbol:"
 
-[node name="SymbolInput" type="LineEdit" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="SymbolInput" type="LineEdit" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "BTCUSDT"
 
-[node name="IntervalLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="IntervalLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Interval:"
 
-[node name="IntervalOption" type="OptionButton" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="IntervalOption" type="OptionButton" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 item_count = 7
 popup/item_0/text = "1m"
@@ -122,43 +120,43 @@ popup/item_6/text = "1w"
 popup/item_6/id = 6
 selected = 3
 
-[node name="LeverageLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="LeverageLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Leverage:"
 
-[node name="LeverageInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="LeverageInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 min_value = 1.0
 max_value = 100.0
 value = 1.0
 
-[node name="BalanceLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="BalanceLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Starting Balance:"
 
-[node name="BalanceInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="BalanceInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 min_value = 100.0
 max_value = 1000000.0
 step = 100.0
 value = 10000.0
 
-[node name="TPLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="TPLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Take Profit %:"
 
-[node name="TPInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="TPInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 min_value = 0.1
 max_value = 100.0
 step = 0.5
 value = 5.0
 
-[node name="SLLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="SLLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 text = "Stop Loss %:"
 
-[node name="SLInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+[node name="SLInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigContent/ConfigGrid"]
 layout_mode = 2
 min_value = 0.1
 max_value = 100.0
@@ -181,115 +179,107 @@ max_value = 100.0
 value = 0.0
 show_percentage = true
 
-[node name="ResultsPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="ResultsPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 400)
 
-[node name="ResultsTitle" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 35.0
+[node name="ResultsContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ResultsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResultsTitle" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent"]
+layout_mode = 2
 text = "📊 Results"
 
-[node name="ResultsGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ResultsPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 390.0
+[node name="ResultsGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent"]
+layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 8
 columns = 2
 
-[node name="RatingLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="RatingLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Rating:"
 
-[node name="RatingValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="RatingValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "—"
 
-[node name="ReturnLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ReturnLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Total Return:"
 
-[node name="ReturnValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ReturnValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "$0.00"
 
-[node name="ReturnPctLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ReturnPctLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Return %:"
 
-[node name="ReturnPctValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ReturnPctValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0.0%"
 
-[node name="TradesLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="TradesLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Total Trades:"
 
-[node name="TradesValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="TradesValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0"
 
-[node name="WinRateLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="WinRateLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Win Rate:"
 
-[node name="WinRateValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="WinRateValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0.0%"
 
-[node name="ProfitFactorLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ProfitFactorLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Profit Factor:"
 
-[node name="ProfitFactorValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="ProfitFactorValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0.0"
 
-[node name="MaxDDLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="MaxDDLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Max Drawdown:"
 
-[node name="MaxDDValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="MaxDDValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0.0%"
 
-[node name="SharpeLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="SharpeLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Sharpe Ratio:"
 
-[node name="SharpeValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="SharpeValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0.0"
 
-[node name="BestStreakLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="BestStreakLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "Best Win Streak:"
 
-[node name="BestStreakValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+[node name="BestStreakValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsContent/ResultsGrid"]
 layout_mode = 2
 text = "0"
 
-[node name="EquityPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="EquityPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 250)
 
-[node name="EquityTitle" type="Label" parent="ScrollContainer/MainVBox/EquityPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 35.0
+[node name="EquityContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/EquityPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EquityTitle" type="Label" parent="ScrollContainer/MainVBox/EquityPanel/EquityContent"]
+layout_mode = 2
 text = "📈 Equity Curve"
 
-[node name="EquityChart" type="Control" parent="ScrollContainer/MainVBox/EquityPanel"]
-layout_mode = 1
-offset_left = 10.0
-offset_top = 40.0
-offset_right = 700.0
-offset_bottom = 240.0
+[node name="EquityChart" type="Control" parent="ScrollContainer/MainVBox/EquityPanel/EquityContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 200)

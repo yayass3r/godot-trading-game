@@ -85,6 +85,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
 text = "🎯  Challenges"
 
+[node name="OrderbookButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+text = "📋  Order Book"
+
 [node name="TutorialsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 60)

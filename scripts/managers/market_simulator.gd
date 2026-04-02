@@ -5,6 +5,8 @@
 extends Node
 class_name MarketSimulator
 
+const NP = preload("res://scripts/enums/notification_priority.gd")
+
 ## ---- إشارات ----
 signal price_tick(symbol: String, price: float, timestamp: int)
 signal trend_changed(symbol: String, new_trend: TrendType, strength: float)
@@ -270,7 +272,7 @@ func _on_random_news() -> void:
         NotificationManager.send_notification(
                 "📰 أخبار السوق",
                 title,
-                NotificationPriority.INFO,
+                NP.INFO,
                 false
         )
         

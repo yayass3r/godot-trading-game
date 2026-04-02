@@ -5,6 +5,8 @@
 ## ============================================
 extends Node
 
+const ForumPostClass = preload("res://scripts/data_models/forum_post.gd")
+
 ## ---- إشارات (Signals) ----
 signal sentiment_updated(symbol: String, score: float, label: String)
 signal trend_alert(symbol: String, direction: String, strength: float)
@@ -80,7 +82,7 @@ func _ready() -> void:
 ## ============================================
 ## تحليل منشور جديد فوراً
 ## ============================================
-func _on_new_post(post: ForumPost) -> void:
+func _on_new_post(post) -> void:
         if post.attached_symbol.is_empty():
                 return
 

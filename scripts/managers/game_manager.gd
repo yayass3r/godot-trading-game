@@ -4,21 +4,25 @@
 ## ============================================
 extends Node
 
+const TradeClass = preload("res://scripts/data_models/trade.gd")
+const NP = preload("res://scripts/enums/notification_priority.gd")
+const ForumPostClass = preload("res://scripts/data_models/forum_post.gd")
+
 ## ---- مراجع الأنظمة ----
-@onready var profile_manager: Node = $ProfileManager
-@onready var portfolio_manager: Node = $PortfolioManager
-@onready var trading_manager: Node = $TradingManager
-@onready var data_manager: Node = $DataManager
-@onready var notification_manager: Node = $NotificationManager
-@onready var forum_manager: Node = $ForumManager
-@onready var leaderboard_manager: Node = $LeaderboardManager
-@onready var chart_manager: Node = $ChartManager
-@onready var sentiment_analyzer: Node = $SentimentAnalyzer
-@onready var challenge_manager: Node = $ChallengeManager
-@onready var backtesting_engine: Node = $BacktestingEngine
-@onready var tutorial_manager: Node = $TutorialManager
-@onready var orderbook_manager: Node = $OrderBookManager
-@onready var firebase_manager: Node = $FirebaseManager
+@onready var profile_manager: Node = get_node_or_null("/root/ProfileManager")
+@onready var portfolio_manager: Node = get_node_or_null("/root/PortfolioManager")
+@onready var trading_manager: Node = get_node_or_null("/root/TradingManager")
+@onready var data_manager: Node = get_node_or_null("/root/DataManager")
+@onready var notification_manager: Node = get_node_or_null("/root/NotificationManager")
+@onready var forum_manager: Node = get_node_or_null("/root/ForumManager")
+@onready var leaderboard_manager: Node = get_node_or_null("/root/LeaderboardManager")
+@onready var chart_manager: Node = get_node_or_null("/root/ChartManager")
+@onready var sentiment_analyzer: Node = get_node_or_null("/root/SentimentAnalyzer")
+@onready var challenge_manager: Node = get_node_or_null("/root/ChallengeManager")
+@onready var backtesting_engine: Node = get_node_or_null("/root/BacktestingEngine")
+@onready var tutorial_manager: Node = get_node_or_null("/root/TutorialManager")
+@onready var orderbook_manager: Node = get_node_or_null("/root/OrderBookManager")
+@onready var firebase_manager: Node = get_node_or_null("/root/FirebaseManager")
 
 ## ---- حالة اللعبة ----
 enum GameState {
@@ -73,7 +77,7 @@ func _ready() -> void:
                         profile_manager.level,
                         profile_manager.balance
                 ],
-                NotificationPriority.INFO
+                NP.INFO
         )
 
 ## ============================================
@@ -143,10 +147,10 @@ func _connect_systems() -> void:
 ## ============================================
 ## عند إغلاق صفقة
 ## ============================================
-func _on_trade_closed(trade: Trade, pnl: float, reason: String) -> void:
+func _on_trade_closed(trade, pnl: float, reason: String) -> void:
         ## نشر تلقائي في المنتدى للصفقات الكبيرة
         if pnl > 1000.0:
-                var direction := "LONG 🟢" if trade.trade_type == Trade.TradeType.LONG else "SHORT 🔴"
+                var direction := "LONG 🟢" if trade.trade_type == TradeClass.TradeType.LONG else "SHORT 🔴"
                 var post_content := "🎯 صفقة %s على %s\n💰 الربح: $%.2f (+%.1f%%)\n⚡ رافعة: %dx\n🤖 %s" % [
                         direction, trade.symbol, pnl, trade.pnl_percentage, trade.leverage, reason
                 ]
@@ -154,7 +158,7 @@ func _on_trade_closed(trade: Trade, pnl: float, reason: String) -> void:
                         profile_manager.player_id,
                         profile_manager.player_name,
                         post_content,
-                        ForumPost.PostType.TRADE_RESULT,
+                        ForumPostClass.PostType.TRADE_RESULT,
                         trade.symbol
                 )
         
@@ -168,11 +172,11 @@ func _on_trade_closed(trade: Trade, pnl: float, reason: String) -> void:
 ## ============================================
 ## عند تصفية صفقة
 ## ============================================
-func _on_trade_liquidated(trade: Trade, loss: float) -> void:
+func _on_trade_liquidated(trade, loss: float) -> void:
         NotificationManager.send_notification(
                 "💥 تمت التصفية!",
                 "صفقة %s @ رافعة %dx\nالخسارة: $%.2f" % [trade.symbol, trade.leverage, loss],
-                NotificationPriority.CRITICAL
+                NP.CRITICAL
         )
 
 ## ============================================
@@ -182,7 +186,7 @@ func _on_badge_earned(badge_id: String, badge_name: String) -> void:
         NotificationManager.send_notification(
                 "🏅 وسام جديد!",
                 "تهانينا! حصلت على وسام: %s" % badge_name,
-                NotificationPriority.SUCCESS
+                NP.SUCCESS
         )
 
 ## ============================================
@@ -198,7 +202,7 @@ func _on_level_up(new_level: int, rewards: Dictionary) -> void:
         NotificationManager.send_notification(
                 "🎉 ترقية!",
                 msg,
-                NotificationPriority.SUCCESS
+                NP.SUCCESS
         )
 
 ## ============================================
@@ -210,13 +214,13 @@ func _on_price_updated(symbol: String, price: float, _timestamp: int) -> void:
 ## ============================================
 ## عند نداء هامش
 ## ============================================
-func _on_margin_call(trade: Trade, free_margin: float) -> void:
+func _on_margin_call(trade, free_margin: float) -> void:
         NotificationManager.send_notification(
                 "🚨 نداء هامش!",
                 "صفقة %s | الهامش الحر: $%.2f\nسعر التصفية: $%.2f" % [
                         trade.symbol, free_margin, trade.liquidation_price
                 ],
-                NotificationPriority.HIGH
+                NP.HIGH
         )
 
 ## ===== الأنظمة الجديدة: معالجات الإشارات =====
@@ -252,7 +256,7 @@ func _on_sentiment_trend(symbol: String, direction: String, strength: float) -> 
         NotificationManager.send_notification(
                 "📊 اتجاه مشاعر %s" % symbol,
                 "%s | القوة: %.0f%%" % [direction, strength * 100],
-                NotificationPriority.INFO
+                NP.INFO
         )
 
 ## ============================================

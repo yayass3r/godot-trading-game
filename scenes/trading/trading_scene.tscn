@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d5j9pf2qhrm6"]
+[gd_scene load_steps=5 format=3 uid="uid://d5j9pf2qhrm6"]
 
 [ext_resource type="Script" path="res://scripts/ui/trading_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_symbol"]
+font_size = 28
+font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_price"]
+font_size = 32
+font_color = Color(0.18, 0.8, 0.44, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_change"]
+font_size = 20
+font_color = Color(1, 1, 1, 1)
 
 [node name="TradingScene" type="Control"]
 layout_mode = 3
@@ -18,126 +30,92 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.08, 0.08, 0.14, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
 
-[node name="Header" type="Panel" parent="VBoxContainer"]
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 100)
 
-[node name="HeaderContent" type="VBoxContainer" parent="VBoxContainer/Header"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = -10.0
-offset_bottom = -8.0
-
-[node name="SymbolLabel" type="Label" parent="VBoxContainer/Header/HeaderContent"]
+[node name="SymbolLabel" type="Label" parent="VBoxContainer/Header"]
 layout_mode = 2
-text = "BTCUSDT"
+text = "BTC/USDT"
 label_settings = SubResource("LabelSettings_symbol")
 
-[node name="PriceRow" type="HBoxContainer" parent="VBoxContainer/Header/HeaderContent"]
+[node name="PriceLabel" type="Label" parent="VBoxContainer/Header"]
 layout_mode = 2
-
-[node name="PriceLabel" type="Label" parent="VBoxContainer/Header/HeaderContent/PriceRow"]
-layout_mode = 2
-text = "$0.00"
+size_flags_horizontal = 3
+text = "$60,000.00"
 label_settings = SubResource("LabelSettings_price")
 
-[node name="ChangeLabel" type="Label" parent="VBoxContainer/Header/HeaderContent/PriceRow"]
+[node name="ChangeLabel" type="Label" parent="VBoxContainer/Header"]
 layout_mode = 2
-text = "+0.00%"
+text = "+2.5%"
 label_settings = SubResource("LabelSettings_change")
 
-[node name="BackButton" type="Button" parent="VBoxContainer"]
+[node name="PortfolioInfo" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
-text = "← Back"
 
-[node name="PortfolioInfo" type="Panel" parent="."]
-layout_mode = 1
-offset_left = 10.0
-offset_top = 130.0
-offset_right = 710.0
-offset_bottom = 250.0
+[node name="PortfolioVBox" type="VBoxContainer" parent="VBoxContainer/PortfolioInfo"]
+layout_mode = 2
+theme_override_constants/separation = 6
 
-[node name="PortfolioVBox" type="VBoxContainer" parent="PortfolioInfo"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = -10.0
-offset_bottom = -8.0
-
-[node name="BalanceLabel" type="Label" parent="PortfolioInfo/PortfolioVBox"]
+[node name="BalanceLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "💰 Balance: $10,000.00"
 
-[node name="EquityLabel" type="Label" parent="PortfolioInfo/PortfolioVBox"]
+[node name="EquityLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "📊 Equity: $10,000.00"
 
-[node name="MarginLabel" type="Label" parent="PortfolioInfo/PortfolioVBox"]
+[node name="MarginLabel" type="Label" parent="VBoxContainer/PortfolioInfo/PortfolioVBox"]
 layout_mode = 2
 text = "🟢 Margin Used: 0.0%"
 
-[node name="OpenTrades" type="ItemList" parent="VBoxContainer"]
+[node name="TradePanel" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 180)
 size_flags_vertical = 3
 
-[node name="TradePanel" type="Panel" parent="."]
-layout_mode = 1
-offset_left = 10.0
-offset_top = 550.0
-offset_right = 710.0
-offset_bottom = 1270.0
-
-[node name="TradeContent" type="VBoxContainer" parent="TradePanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = -15.0
-offset_bottom = -15.0
-theme_override_constants/separation = 12
-
-[node name="AmountLabel" type="Label" parent="TradePanel/TradeContent"]
-layout_mode = 2
-text = "Amount (USD):"
-
-[node name="AmountInput" type="LineEdit" parent="TradePanel/TradeContent"]
-layout_mode = 2
-placeholder_text = "Enter amount..."
-
-[node name="LeverageRow" type="HBoxContainer" parent="TradePanel/TradeContent"]
+[node name="TradeContent" type="VBoxContainer" parent="VBoxContainer/TradePanel"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="LeverageLabel" type="Label" parent="TradePanel/TradeContent/LeverageRow"]
+[node name="SymbolOption" type="OptionButton" parent="VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
-text = "1x ⚡"
+item_count = 5
+popup/item_0/text = "BTC/USDT"
+popup/item_1/text = "ETH/USDT"
+popup/item_1/id = 1
+popup/item_2/text = "SOL/USDT"
+popup/item_2/id = 2
+popup/item_3/text = "BNB/USDT"
+popup/item_3/id = 3
+popup/item_4/text = "XRP/USDT"
+popup/item_4/id = 4
 
-[node name="LeverageSlider" type="HSlider" parent="TradePanel/TradeContent/LeverageRow"]
+[node name="LeverageLabel" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
+layout_mode = 2
+text = "Leverage: 1x"
+
+[node name="LeverageSlider" type="HSlider" parent="VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
@@ -145,25 +123,36 @@ max_value = 100.0
 step = 1.0
 value = 1.0
 
-[node name="MarginPreview" type="Label" parent="TradePanel/TradeContent"]
+[node name="AmountInput" type="LineEdit" parent="VBoxContainer/TradePanel/TradeContent"]
+layout_mode = 2
+placeholder_text = "Amount in $"
+
+[node name="MarginPreview" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 text = "Margin required: $0.00"
 
-[node name="LiquidationLabel" type="Label" parent="TradePanel/TradeContent"]
+[node name="LiquidationLabel" type="Label" parent="VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 text = "Liquidation distance: 0.0%"
 
-[node name="ButtonRow" type="HBoxContainer" parent="TradePanel/TradeContent"]
+[node name="ButtonRow" type="HBoxContainer" parent="VBoxContainer/TradePanel/TradeContent"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 20
 
-[node name="BuyButton" type="Button" parent="TradePanel/TradeContent/ButtonRow"]
+[node name="BuyButton" type="Button" parent="VBoxContainer/TradePanel/TradeContent/ButtonRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(280, 70)
-text = "🟢 BUY (LONG)"
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 70)
+text = "🟢 BUY LONG"
 
-[node name="SellButton" type="Button" parent="TradePanel/TradeContent/ButtonRow"]
+[node name="SellButton" type="Button" parent="VBoxContainer/TradePanel/TradeContent/ButtonRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(280, 70)
-text = "🔴 SELL (SHORT)"
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 70)
+text = "🔴 SELL SHORT"
+
+[node name="OpenTradesList" type="ItemList" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 180)
+size_flags_vertical = 3

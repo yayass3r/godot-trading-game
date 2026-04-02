@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://h6m3j8w2x5n9"]
+[gd_scene load_steps=4 format=3 uid="uid://h6m3j8w2x5n9"]
 
 [ext_resource type="Script" path="res://scripts/ui/challenges_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ch_title"]
+font_size = 24
+font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_section"]
+font_size = 20
+font_color = Color(0.7, 0.85, 1, 1)
 
 [node name="ChallengesScene" type="Control"]
 layout_mode = 3
@@ -18,112 +26,102 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 theme_override_constants/separation = 10
 
-[node name="HeaderRow" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-size_flags_horizontal = 3
+horizontal_alignment = 1
 text = "🎯 Challenges"
 label_settings = SubResource("LabelSettings_ch_title")
 
-[node name="StreakLabel" type="Label" parent="VBoxContainer/HeaderRow"]
+[node name="StreakLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+horizontal_alignment = 1
 text = "🔥 Streak: 0"
 
-[node name="BackButton" type="Button" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 40)
-text = "← Back"
-
-[node name="DailySection" type="Panel" parent="VBoxContainer"]
+[node name="DailySection" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="DailyHeader" type="Label" parent="VBoxContainer/DailySection"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 40.0
+[node name="DailyContent" type="VBoxContainer" parent="VBoxContainer/DailySection"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DailyHeader" type="Label" parent="VBoxContainer/DailySection/DailyContent"]
+layout_mode = 2
 text = "📅 Daily Challenges"
 label_settings = SubResource("LabelSettings_section")
 
-[node name="DailyList" type="VBoxContainer" parent="VBoxContainer/DailySection"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 250.0
+[node name="DailyList" type="VBoxContainer" parent="VBoxContainer/DailySection/DailyContent"]
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="DailyChallenge1" type="PanelContainer" parent="VBoxContainer/DailySection/DailyList"]
+[node name="DailyChallenge1" type="PanelContainer" parent="VBoxContainer/DailySection/DailyContent/DailyList"]
 layout_mode = 2
 
-[node name="DailyChallenge2" type="PanelContainer" parent="VBoxContainer/DailySection/DailyList"]
+[node name="DailyChallenge2" type="PanelContainer" parent="VBoxContainer/DailySection/DailyContent/DailyList"]
 layout_mode = 2
 
-[node name="DailyChallenge3" type="PanelContainer" parent="VBoxContainer/DailySection/DailyList"]
+[node name="DailyChallenge3" type="PanelContainer" parent="VBoxContainer/DailySection/DailyContent/DailyList"]
 layout_mode = 2
 
-[node name="WeeklySection" type="Panel" parent="VBoxContainer"]
+[node name="WeeklySection" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="WeeklyHeader" type="Label" parent="VBoxContainer/WeeklySection"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 350.0
-offset_bottom = 40.0
+[node name="WeeklyContent" type="VBoxContainer" parent="VBoxContainer/WeeklySection"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="WeeklyHeader" type="Label" parent="VBoxContainer/WeeklySection/WeeklyContent"]
+layout_mode = 2
 text = "📆 Weekly Challenges"
 label_settings = SubResource("LabelSettings_section")
 
-[node name="WeeklyList" type="VBoxContainer" parent="VBoxContainer/WeeklySection"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 200.0
+[node name="WeeklyList" type="VBoxContainer" parent="VBoxContainer/WeeklySection/WeeklyContent"]
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="WeeklyChallenge1" type="PanelContainer" parent="VBoxContainer/WeeklySection/WeeklyList"]
+[node name="WeeklyChallenge1" type="PanelContainer" parent="VBoxContainer/WeeklySection/WeeklyContent/WeeklyList"]
 layout_mode = 2
 
-[node name="WeeklyChallenge2" type="PanelContainer" parent="VBoxContainer/WeeklySection/WeeklyList"]
+[node name="WeeklyChallenge2" type="PanelContainer" parent="VBoxContainer/WeeklySection/WeeklyContent/WeeklyList"]
 layout_mode = 2
 
-[node name="SpecialSection" type="Panel" parent="VBoxContainer"]
+[node name="SpecialSection" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="SpecialHeader" type="Label" parent="VBoxContainer/SpecialSection"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 350.0
-offset_bottom = 40.0
+[node name="SpecialContent" type="VBoxContainer" parent="VBoxContainer/SpecialSection"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SpecialHeader" type="Label" parent="VBoxContainer/SpecialSection/SpecialContent"]
+layout_mode = 2
 text = "⭐ Special Challenges"
 label_settings = SubResource("LabelSettings_section")
 
-[node name="SpecialList" type="VBoxContainer" parent="VBoxContainer/SpecialSection"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 200.0
+[node name="SpecialList" type="VBoxContainer" parent="VBoxContainer/SpecialSection/SpecialContent"]
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SpecialChallenge1" type="PanelContainer" parent="VBoxContainer/SpecialSection/SpecialList"]
+[node name="SpecialChallenge1" type="PanelContainer" parent="VBoxContainer/SpecialSection/SpecialContent/SpecialList"]
 layout_mode = 2
 
-[node name="SpecialChallenge2" type="PanelContainer" parent="VBoxContainer/SpecialSection/SpecialList"]
+[node name="SpecialChallenge2" type="PanelContainer" parent="VBoxContainer/SpecialSection/SpecialContent/SpecialList"]
 layout_mode = 2

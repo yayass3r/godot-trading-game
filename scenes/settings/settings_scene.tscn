@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://m7r2t5p9w3n6"]
+[gd_scene load_steps=4 format=3 uid="uid://m7r2t5p9w3n6"]
 
 [ext_resource type="Script" path="res://scripts/ui/settings_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_set_title"]
+font_size = 24
+font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_section_title"]
+font_size = 20
+font_color = Color(0.7, 0.85, 1, 1)
 
 [node name="SettingsScene" type="Control"]
 layout_mode = 3
@@ -18,13 +26,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 
@@ -33,39 +50,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="HeaderRow" type="HBoxContainer" parent="ScrollContainer/MainVBox"]
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox/HeaderRow"]
-layout_mode = 2
-size_flags_horizontal = 3
+horizontal_alignment = 1
 text = "⚙️ Settings"
 label_settings = SubResource("LabelSettings_set_title")
 
-[node name="BackButton" type="Button" parent="ScrollContainer/MainVBox/HeaderRow"]
+[node name="SoundPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(100, 40)
-text = "← Back"
-
-[node name="SoundPanel" type="Panel" parent="ScrollContainer/MainVBox"]
-layout_mode = 2
-
-[node name="SoundTitle" type="Label" parent="ScrollContainer/MainVBox/SoundPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = 250.0
-offset_bottom = 38.0
-text = "🔊 Sound Settings"
-label_settings = SubResource("LabelSettings_section_title")
 
 [node name="SoundContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 280.0
+layout_mode = 2
 theme_override_constants/separation = 14
+
+[node name="SoundTitle" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+text = "🔊 Sound Settings"
+label_settings = SubResource("LabelSettings_section_title")
 
 [node name="MasterVolumeRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
 layout_mode = 2
@@ -138,25 +139,17 @@ text = "🔇 Mute All Sounds"
 layout_mode = 2
 text = "🔔 Price Tick Sounds"
 
-[node name="NotificationsPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="NotificationsPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 
-[node name="NotifTitle" type="Label" parent="ScrollContainer/MainVBox/NotificationsPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = 350.0
-offset_bottom = 38.0
+[node name="NotifContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/NotificationsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NotifTitle" type="Label" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
 text = "🔔 Notifications"
 label_settings = SubResource("LabelSettings_section_title")
-
-[node name="NotifContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/NotificationsPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 220.0
-theme_override_constants/separation = 12
 
 [node name="TradeNotifToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
 layout_mode = 2
@@ -178,25 +171,17 @@ text = "🏆 Challenge Updates"
 layout_mode = 2
 text = "💬 Forum Notifications"
 
-[node name="ThemePanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="ThemePanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 
-[node name="ThemeTitle" type="Label" parent="ScrollContainer/MainVBox/ThemePanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = 250.0
-offset_bottom = 38.0
+[node name="ThemeContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ThemePanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ThemeTitle" type="Label" parent="ScrollContainer/MainVBox/ThemePanel/ThemeContent"]
+layout_mode = 2
 text = "🎨 Theme"
 label_settings = SubResource("LabelSettings_section_title")
-
-[node name="ThemeContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ThemePanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 200.0
-theme_override_constants/separation = 12
 
 [node name="ThemeLabel" type="Label" parent="ScrollContainer/MainVBox/ThemePanel/ThemeContent"]
 layout_mode = 2
@@ -211,25 +196,17 @@ popup/item_1/id = 1
 popup/item_2/text = "💚 Midnight Green"
 popup/item_2/id = 2
 
-[node name="AccountPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="AccountPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
 
-[node name="AccountTitle" type="Label" parent="ScrollContainer/MainVBox/AccountPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = 300.0
-offset_bottom = 38.0
+[node name="AccountContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/AccountPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AccountTitle" type="Label" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent"]
+layout_mode = 2
 text = "👤 Account"
 label_settings = SubResource("LabelSettings_section_title")
-
-[node name="AccountContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/AccountPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 45.0
-offset_right = 705.0
-offset_bottom = 250.0
-theme_override_constants/separation = 12
 
 [node name="NameEditRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent"]
 layout_mode = 2

@@ -163,16 +163,16 @@ func _calculate_level_rewards(lvl: int) -> Dictionary:
                 balance += rewards["balance_bonus"]
         
         ## فتح رافعات أعلى حسب المستوى
-        if lvl >= 5:
-                rewards["leverage_unlock"] = 5
-        elif lvl >= 10:
-                rewards["leverage_unlock"] = 10
-        elif lvl >= 20:
-                rewards["leverage_unlock"] = 25
+        if lvl >= 50:
+                rewards["leverage_unlock"] = 100
         elif lvl >= 30:
                 rewards["leverage_unlock"] = 50
-        elif lvl >= 50:
-                rewards["leverage_unlock"] = 100
+        elif lvl >= 20:
+                rewards["leverage_unlock"] = 25
+        elif lvl >= 10:
+                rewards["leverage_unlock"] = 10
+        elif lvl >= 5:
+                rewards["leverage_unlock"] = 5
         
         ## ألقاب خاصة
         var titles := {
@@ -350,6 +350,28 @@ func save_profile() -> void:
                 print("[ProfileManager] 💾 تم الحفظ بنجاح")
         else:
                 push_error("[ProfileManager] ❌ فشل الحفظ: %s" % save_path)
+
+## ============================================
+## إعادة تعيين الملف الشخصي
+## ============================================
+func reset_profile() -> void:
+        level = 1
+        total_xp = 0
+        current_level_xp = 0
+        xp_to_next_level = get_xp_for_level(1)
+        balance = 100000.0
+        total_trades = 0
+        winning_trades = 0
+        losing_trades = 0
+        biggest_win = 0.0
+        biggest_loss = 0.0
+        total_profit = 0.0
+        total_fees_paid = 0.0
+        current_streak = 0
+        best_streak = 0
+        total_volume_traded = 0.0
+        earned_badges.clear()
+        save_profile()
 
 ## ============================================
 ## تحميل الملف الشخصي من ملف محلي

@@ -4,6 +4,8 @@
 ## ============================================
 extends Node
 
+const NP = preload("res://scripts/enums/notification_priority.gd")
+
 ## ---- إشارات (Signals) ----
 signal tutorial_unlocked(tutorial_id: String, title: String)
 signal tutorial_started(tutorial_id: String)
@@ -267,12 +269,12 @@ func complete_quiz(tutorial_id: String, answers: Array[int]) -> Dictionary:
                 tutorial_completed.emit(tutorial_id, xp_earned)
                 NotificationManager.send_notification(
                         "📚 درس مكتمل!", "%s | %.0f%% | ⭐ +%d XP" % [tutorial["title"], score_pct, xp_earned],
-                        NotificationPriority.SUCCESS
+                        NP.SUCCESS
                 )
         else:
                 NotificationManager.send_notification(
                         "❌ لم تجتز الاختبار", "%s | %.0f%% | حاول مجدداً!" % [tutorial["title"], score_pct],
-                        NotificationPriority.WARNING
+                        NP.WARNING
                 )
 
         save_progress()

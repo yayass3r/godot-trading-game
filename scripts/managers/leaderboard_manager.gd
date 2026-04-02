@@ -4,6 +4,8 @@
 ## ============================================
 extends Node
 
+const LBC = preload("res://scripts/enums/leaderboard_category.gd")
+
 ## ---- إشارات ----
 signal leaderboard_updated(category: String, entries: Array[Dictionary])
 signal player_rank_updated(category: String, rank: int, total: int)
@@ -83,17 +85,17 @@ func get_leaderboard(
         
         ## الترتيب حسب الفئة
         match category:
-                LeaderboardCategory.BALANCE:
+                LBC.BALANCE:
                         all_players.sort_custom(func(a, b): return a["balance"] > b["balance"])
-                LeaderboardCategory.PROFIT:
+                LBC.PROFIT:
                         all_players.sort_custom(func(a, b): return a["total_profit"] > b["total_profit"])
-                LeaderboardCategory.WIN_RATE:
+                LBC.WIN_RATE:
                         all_players.sort_custom(func(a, b): return a["win_rate"] > b["win_rate"])
-                LeaderboardCategory.LEVEL:
+                LBC.LEVEL:
                         all_players.sort_custom(func(a, b): return a["level"] > b["level"])
-                LeaderboardCategory.STREAK:
+                LBC.STREAK:
                         all_players.sort_custom(func(a, b): return a["best_streak"] > b["best_streak"])
-                LeaderboardCategory.VOLUME:
+                LBC.VOLUME:
                         all_players.sort_custom(func(a, b): return a["total_volume"] > b["total_volume"])
         
         ## إضافة الترتيب
@@ -113,7 +115,7 @@ func get_leaderboard(
 ## ============================================
 ## تحديث لوحة المتصدرين وإرسالها
 ## ============================================
-func refresh_leaderboard(category: int = LeaderboardCategory.BALANCE) -> void:
+func refresh_leaderboard(category: int = LBC.BALANCE) -> void:
         var entries := get_leaderboard(category)
         var cat_names: Array = ["BALANCE", "PROFIT", "WIN_RATE", "LEVEL", "STREAK", "VOLUME"]
         var cat_name: String = cat_names[category] if category < cat_names.size() else "BALANCE"

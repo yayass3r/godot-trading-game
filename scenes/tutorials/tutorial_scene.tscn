@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://k5p8r3m6w1n7"]
+[gd_scene load_steps=3 format=3 uid="uid://k5p8r3m6w1n7"]
 
 [ext_resource type="Script" path="res://scripts/ui/tutorial_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tut_title"]
+font_size = 24
+font_color = Color(1, 1, 1, 1)
 
 [node name="TutorialScene" type="Control"]
 layout_mode = 3
@@ -18,43 +22,37 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 theme_override_constants/separation = 10
 
-[node name="HeaderRow" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-size_flags_horizontal = 3
+horizontal_alignment = 1
 text = "📚 Tutorials"
 label_settings = SubResource("LabelSettings_tut_title")
 
-[node name="BackButton" type="Button" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 40)
-text = "← Back"
-
-[node name="ProgressPanel" type="Panel" parent="VBoxContainer"]
+[node name="ProgressPanel" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 
 [node name="ProgressRow" type="HBoxContainer" parent="VBoxContainer/ProgressPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = -15.0
-offset_bottom = -12.0
+layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="ProgressIcon" type="Label" parent="VBoxContainer/ProgressPanel/ProgressRow"]
@@ -81,23 +79,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Tutorial1Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+[node name="Tutorial1Card" type="PanelContainer" parent="VBoxContainer/TutorialList/TutorialListVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 
-[node name="Tutorial2Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+[node name="Tutorial2Card" type="PanelContainer" parent="VBoxContainer/TutorialList/TutorialListVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 
-[node name="Tutorial3Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+[node name="Tutorial3Card" type="PanelContainer" parent="VBoxContainer/TutorialList/TutorialListVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 
-[node name="Tutorial4Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+[node name="Tutorial4Card" type="PanelContainer" parent="VBoxContainer/TutorialList/TutorialListVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 
-[node name="Tutorial5Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+[node name="Tutorial5Card" type="PanelContainer" parent="VBoxContainer/TutorialList/TutorialListVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 
@@ -109,10 +107,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="OverlayVBox" type="VBoxContainer" parent="LessonOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 offset_left = 20.0
 offset_top = 80.0
 offset_right = -20.0
@@ -152,26 +147,22 @@ size_flags_horizontal = 3
 autowrap_mode = 2
 text = "Lesson content goes here..."
 
-[node name="KeyPointsPanel" type="Panel" parent="LessonOverlay/OverlayVBox"]
+[node name="KeyPointsPanel" type="PanelContainer" parent="LessonOverlay/OverlayVBox"]
 layout_mode = 2
 
-[node name="KeyPointsTitle" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 200.0
-offset_bottom = 30.0
-text = "💡 Key Points:"
-
-[node name="KeyPointsList" type="VBoxContainer" parent="LessonOverlay/OverlayVBox/KeyPointsPanel"]
-layout_mode = 1
-offset_left = 10.0
-offset_top = 35.0
-offset_right = 690.0
-offset_bottom = 120.0
+[node name="KeyPointsContent" type="VBoxContainer" parent="LessonOverlay/OverlayVBox/KeyPointsPanel"]
+layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="KeyPoint1" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel/KeyPointsList"]
+[node name="KeyPointsTitle" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel/KeyPointsContent"]
+layout_mode = 2
+text = "💡 Key Points:"
+
+[node name="KeyPointsList" type="VBoxContainer" parent="LessonOverlay/OverlayVBox/KeyPointsPanel/KeyPointsContent"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="KeyPoint1" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel/KeyPointsContent/KeyPointsList"]
 layout_mode = 2
 text = "• Point 1"
 

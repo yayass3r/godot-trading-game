@@ -4,14 +4,18 @@
 ## ============================================
 extends Node
 
+const ForumPostClass = preload("res://scripts/data_models/forum_post.gd")
+const ForumCommentClass = preload("res://scripts/data_models/forum_comment.gd")
+const NP = preload("res://scripts/enums/notification_priority.gd")
+
 ## ---- إشارات ----
-signal post_created(post: ForumPost)
+signal post_created(post)
 signal post_liked(post_id: String, user_id: String)
-signal post_commented(post_id: String, comment: ForumComment)
-signal feed_updated(posts: Array[ForumPost])
+signal post_commented(post_id: String, comment)
+signal feed_updated(posts)
 
 ## ---- بيانات المنتدى ----
-var posts: Array[ForumPost] = []
+var posts: Array = []
 var trending_symbols: Dictionary = {}  ## {symbol: mention_count}
 
 ## ============================================
@@ -21,12 +25,12 @@ func create_post(
         author_id: String,
         author_name: String,
         content: String,
-        post_type: ForumPost.PostType = ForumPost.PostType.TRADE_IDEA,
+        post_type: int = ForumPostClass.PostType.TRADE_IDEA,
         attached_symbol: String = "",
         attached_image: String = "",
         trade_screenshot: Dictionary = {}
-) -> ForumPost:
-        var post := ForumPost.new()
+):
+        var post := ForumPostClass.new()
         post.post_id = _generate_post_id()
         post.author_id = author_id
         post.author_name = author_name
@@ -48,7 +52,7 @@ func create_post(
         NotificationManager.send_notification(
                 "📝 تم النشر!",
                 "تم نشر منشورك بنجاح في المنتدى",
-                NotificationPriority.SUCCESS
+                NP.SUCCESS
         )
         
         return post
@@ -77,7 +81,7 @@ func like_post(post_id: String, user_id: String) -> bool:
 func add_comment(post_id: String, user_id: String, user_name: String, text: String) -> bool:
         for post in posts:
                 if post.post_id == post_id:
-                        var comment := ForumComment.new()
+                        var comment := ForumCommentClass.new()
                         comment.comment_id = _generate_post_id()
                         comment.user_id = user_id
                         comment.user_name = user_name
@@ -93,7 +97,7 @@ func add_comment(post_id: String, user_id: String, user_name: String, text: Stri
 ## ============================================
 ## الحصول على آخر المنشورات (Feed)
 ## ============================================
-func get_feed(limit: int = 20, offset: int = 0) -> Array[ForumPost]:
+func get_feed(limit: int = 20, offset: int = 0):
         var sorted := posts.duplicate()
         sorted.sort_custom(func(a, b): return a.created_at > b.created_at)
         
@@ -104,8 +108,8 @@ func get_feed(limit: int = 20, offset: int = 0) -> Array[ForumPost]:
 ## ============================================
 ## الحصول على منشورات رمز معين
 ## ============================================
-func get_posts_by_symbol(symbol: String) -> Array[ForumPost]:
-        var result: Array[ForumPost] = []
+func get_posts_by_symbol(symbol: String):
+        var result = []
         for post in posts:
                 if post.attached_symbol == symbol:
                         result.append(post)

@@ -5,10 +5,12 @@
 ## ============================================
 extends Node
 
+const TradeClass = preload("res://scripts/data_models/trade.gd")
+
 ## ---- إشارات (Signals) ----
-signal trade_opened(trade: Trade)
-signal trade_closed(trade: Trade, pnl: float, reason: String)
-signal trade_liquidated(trade: Trade, loss: float)
+signal trade_opened(trade)
+signal trade_closed(trade, pnl: float, reason: String)
+signal trade_liquidated(trade, loss: float)
 signal error_occurred(message: String)
 
 ## ---- مراجع الأنظمة ----
@@ -78,12 +80,12 @@ func _ready() -> void:
 ## ============================================
 func open_trade(
         symbol: String,
-        trade_type: Trade.TradeType,
+        trade_type: int,
         position_size: float,
         leverage: int,
         take_profit: float = -1.0,
         stop_loss: float = -1.0
-) -> Trade:
+):
         ## ===== التحقق من صحة المعطيات =====
         if not available_symbols.has(symbol):
                 error_occurred.emit("الأداة غير موجودة: %s" % symbol)
@@ -130,11 +132,11 @@ func open_trade(
                 return null
         
         ## ===== إنشاء كائن الصفقة =====
-        var trade := Trade.new()
+        var trade := TradeClass.new()
         trade.trade_id = _generate_trade_id()
         trade.symbol = symbol
         trade.trade_type = trade_type
-        trade.status = Trade.TradeStatus.OPEN
+        trade.status = TradeClass.TradeStatus.OPEN
         trade.leverage = leverage
         trade.entry_price = current_price
         trade.current_price = current_price
@@ -165,7 +167,7 @@ func open_trade(
         
         print("[TradingManager] 📈 صفقة مفتوحة: %s | %s | حجم: %.4f | رافعة: %dx | هامش: $%.2f | تصفية: $%.2f" % [
                 symbol,
-                "LONG" if trade_type == Trade.TradeType.LONG else "SHORT",
+                "LONG" if trade_type == TradeClass.TradeType.LONG else "SHORT",
                 position_size,
                 leverage,
                 margin_required,
@@ -179,7 +181,7 @@ func open_trade(
 ## ============================================
 func close_trade(trade_id: String, reason: String = "يدوي") -> float:
         ## البحث عن الصفقة في المحفظة
-        var trade: Trade = null
+        var trade = null
         for t in portfolio_manager.open_trades:
                 if t.trade_id == trade_id:
                         trade = t
@@ -206,7 +208,7 @@ func close_trade(trade_id: String, reason: String = "يدوي") -> float:
 ## ============================================
 func close_all_symbol_trades(symbol: String, reason: String = "إغلاق كلي") -> float:
         var total_pnl := 0.0
-        var trades_to_close: Array[Trade] = []
+        var trades_to_close: Array = []
         
         for trade in portfolio_manager.open_trades:
                 if trade.symbol == symbol:
@@ -222,7 +224,7 @@ func close_all_symbol_trades(symbol: String, reason: String = "إغلاق كلي
 ## ============================================
 func close_all_trades(reason: String = "طوارئ") -> float:
         var total_pnl := 0.0
-        var trades_to_close: Array[Trade] = []
+        var trades_to_close: Array = []
         trades_to_close.assign(portfolio_manager.open_trades)
         
         for trade in trades_to_close:
@@ -295,11 +297,11 @@ func get_symbol_exposure(symbol: String) -> Dictionary:
         for trade in portfolio_manager.open_trades:
                 if trade.symbol == symbol:
                         match trade.trade_type:
-                                Trade.TradeType.LONG:
+                                TradeClass.TradeType.LONG:
                                         long_count += 1
                                         long_margin += trade.margin_used
                                         long_pnl += trade.calculate_unrealized_pnl()
-                                Trade.TradeType.SHORT:
+                                TradeClass.TradeType.SHORT:
                                         short_count += 1
                                         short_margin += trade.margin_used
                                         short_pnl += trade.calculate_unrealized_pnl()
@@ -327,6 +329,6 @@ func _generate_trade_id() -> String:
 ## ============================================
 ## معالجة التصفية
 ## ============================================
-func _on_liquidation(trade: Trade, loss_amount: float) -> void:
+func _on_liquidation(trade, loss_amount: float) -> void:
         trade_liquidated.emit(trade, loss_amount)
         print("[TradingManager] 💥 تصفية صفقة: %s | الخسارة: $%.2f" % [trade.symbol, loss_amount])

@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://a3f7km9x2nq5"]
+[gd_scene load_steps=6 format=3 uid="uid://a3f7km9x2nq5"]
 
 [ext_resource type="Script" path="res://scripts/ui/profile_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_header"]
+font_size = 28
+font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font_size = 22
+font_color = Color(1, 0.84, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_level"]
+font_size = 18
+font_color = Color(0, 0.85, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_badges_title"]
+font_size = 22
+font_color = Color(1, 1, 1, 1)
 
 [node name="ProfileScene" type="Control"]
 layout_mode = 3
@@ -18,13 +34,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 
@@ -33,30 +58,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 16
 
-[node name="HeaderLabel" type="Label" parent="ScrollContainer/MainVBox"]
+[node name="ProfileCard" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-horizontal_alignment = 1
-text = "👤 Profile"
-label_settings = SubResource("LabelSettings_header")
-
-[node name="BackButton" type="Button" parent="ScrollContainer/MainVBox"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
-text = "← Back"
-
-[node name="ProfileCard" type="Panel" parent="ScrollContainer/MainVBox"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 260)
 
 [node name="CardContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ProfileCard"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 15.0
-offset_right = -20.0
-offset_bottom = -15.0
+layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
@@ -91,19 +97,11 @@ layout_mode = 2
 horizontal_alignment = 1
 text = "0 / 100 XP"
 
-[node name="StatsPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="StatsPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 280)
 
 [node name="StatsGrid" type="GridContainer" parent="ScrollContainer/MainVBox/StatsPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = -15.0
-offset_bottom = -15.0
+layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
@@ -162,25 +160,16 @@ layout_mode = 2
 horizontal_alignment = 2
 text = "0 🔥"
 
-[node name="BadgesPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+[node name="BadgesPanel" type="PanelContainer" parent="ScrollContainer/MainVBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 200)
 
-[node name="BadgesTitle" type="Label" parent="ScrollContainer/MainVBox/BadgesPanel"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 200.0
-offset_bottom = 40.0
+[node name="BadgeTitle" type="Label" parent="ScrollContainer/MainVBox/BadgesPanel"]
+layout_mode = 2
 text = "🏅 Badges"
 label_settings = SubResource("LabelSettings_badges_title")
 
 [node name="BadgeGrid" type="GridContainer" parent="ScrollContainer/MainVBox/BadgesPanel"]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 50.0
-offset_right = 705.0
-offset_bottom = 190.0
+layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 4

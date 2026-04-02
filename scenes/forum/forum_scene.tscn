@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7n2x9w4km3r"]
+[gd_scene load_steps=3 format=3 uid="uid://b7n2x9w4km3r"]
 
 [ext_resource type="Script" path="res://scripts/ui/forum_ui.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_forum_title"]
+font_size = 24
+font_color = Color(1, 1, 1, 1)
 
 [node name="ForumScene" type="Control"]
 layout_mode = 3
@@ -18,60 +22,47 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.06, 0.06, 0.12, 1)
 
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2(0, 40)
+text = "← Back"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = -10.0
 offset_bottom = -10.0
 theme_override_constants/separation = 8
 
-[node name="HeaderRow" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-size_flags_horizontal = 3
+horizontal_alignment = 1
 text = "💬 Forum"
 label_settings = SubResource("LabelSettings_forum_title")
 
-[node name="BackButton" type="Button" parent="VBoxContainer/HeaderRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 40)
-text = "← Back"
-
-[node name="TabContainer" type="TabBar" parent="VBoxContainer"]
-layout_mode = 2
-tab_count = 3
-tab_0/title = "All"
-tab_1/title = "Ideas"
-tab_2/title = "Results"
-
-[node name="PostsContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="PostsContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="PostList" type="VBoxContainer" parent="VBoxContainer/PostsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="NewPostPanel" type="Panel" parent="VBoxContainer"]
+[node name="PostList" type="ItemList" parent="VBoxContainer/PostsContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 200)
+size_flags_vertical = 3
+
+[node name="NewPostPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
 
 [node name="PostContent" type="VBoxContainer" parent="VBoxContainer/NewPostPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = -15.0
-offset_bottom = -15.0
+layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PostInput" type="TextEdit" parent="VBoxContainer/NewPostPanel/PostContent"]
@@ -97,6 +88,7 @@ placeholder_text = "e.g. BTCUSDT"
 
 [node name="PostTypeRow" type="HBoxContainer" parent="VBoxContainer/NewPostPanel/PostContent"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="PostTypeLabel" type="Label" parent="VBoxContainer/NewPostPanel/PostContent/PostTypeRow"]
 layout_mode = 2
@@ -105,6 +97,7 @@ text = "Type:"
 
 [node name="PostTypeOption" type="OptionButton" parent="VBoxContainer/NewPostPanel/PostContent/PostTypeRow"]
 layout_mode = 2
+size_flags_horizontal = 3
 item_count = 3
 popup/item_0/text = "💡 Trade Idea"
 popup/item_1/text = "📈 Trade Result"
@@ -115,4 +108,4 @@ popup/item_2/id = 2
 [node name="SubmitButton" type="Button" parent="VBoxContainer/NewPostPanel/PostContent"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 50)
-text = "📝 Post"
+text = "📤 Post"

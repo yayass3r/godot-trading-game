@@ -45,6 +45,7 @@ var _http_request_pool: Array[HTTPRequest] = []
 var _request_queue: Array[Dictionary] = []
 var _active_requests: int = 0
 const MAX_CONCURRENT_REQUESTS: int = 3
+var _http_callback_map: Dictionary = {}  ## maps HTTPRequest instance ID to callback
 
 ## ============================================
 ## التهيئة
@@ -236,6 +237,7 @@ func _process_queue() -> void:
                 
                 var request: Dictionary = _request_queue.pop_front()
                 _active_requests += 1
+                _http_callback_map[available_http.get_instance_id()] = request["callback"]
                 
                 var headers := ["Content-Type: application/json"]
                 var err := available_http.request(request["url"], headers, request["method"], request["body"])
@@ -265,15 +267,11 @@ func _on_request_completed(result: int, response_code: int, _headers: PackedStri
                 _process_queue()
                 return
         
-        ## معالجة البيانات وإرسالها للcallback
-        if _request_queue.size() > 0:
-                var next_request: Dictionary = _request_queue.pop_front()
-                var callback: Callable = next_request.get("callback", Callable())
-                if callback.is_valid():
-                        callback.call(json.data)
-        else:
-                ## إذا لم يكن هناك callback في الطابور، استخدم parse_all_prices
-                _parse_all_prices(json.data)
+        ## معالجة البيانات وإرسالها للcallback المرتبط بالطلب المكتمل
+        var callback: Callable = _http_callback_map.get(http.get_instance_id(), Callable())
+        if callback.is_valid():
+                callback.call(json.data)
+        _http_callback_map.erase(http.get_instance_id())
         
         _process_queue()
 

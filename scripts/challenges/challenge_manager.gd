@@ -5,6 +5,9 @@
 ## ============================================
 extends Node
 
+const TradeClass = preload("res://scripts/data_models/trade.gd")
+const NP = preload("res://scripts/enums/notification_priority.gd")
+
 ## ---- إشارات (Signals) ----
 signal challenge_available(challenge: Dictionary)
 signal challenge_started(challenge_id: String)
@@ -255,7 +258,7 @@ func _reset_daily_tracking() -> void:
 ## ============================================
 ## عند إغلاق صفقة - تتبع التقدم
 ## ============================================
-func _on_trade_closed(trade: Trade, pnl: float, _reason: String) -> void:
+func _on_trade_closed(trade, pnl: float, _reason: String) -> void:
         today_trades += 1
 
         if pnl > 0:
@@ -275,7 +278,7 @@ func _on_trade_closed(trade: Trade, pnl: float, _reason: String) -> void:
         if not today_has_loss:
                 _update_challenge_progress("daily_no_loss", today_no_loss_count)
 
-        if trade.trade_type == Trade.TradeType.SHORT and pnl > 0:
+        if trade.trade_type == TradeClass.TradeType.SHORT and pnl > 0:
                 _update_challenge_progress("daily_short_profit", 1)
 
         if trade.leverage >= 10 and pnl > 0:
@@ -339,7 +342,7 @@ func _complete_challenge(challenge_id: String) -> void:
                 "%s\n💰 مكافأة: $%.0f | ⭐ XP: %d" % [
                         challenge_data["name"], rewards["balance"], rewards["xp"]
                 ],
-                NotificationPriority.SUCCESS
+                NP.SUCCESS
         )
 
         print("[ChallengeManager] 🏆 تحدي مكتمل: %s" % challenge_data["name"])
@@ -400,7 +403,7 @@ func _on_level_up(new_level: int, _rewards: Dictionary) -> void:
                 NotificationManager.send_notification(
                         "🎮 تحديات جديدة!",
                         "تم فتح تحديات خاصة بالمستوى %d" % new_level,
-                        NotificationPriority.INFO
+                        NP.INFO
                 )
 
 ## ============================================
