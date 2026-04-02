@@ -1,0 +1,17 @@
+*.import
+*.translation
+.godot/
+*.log
+android/build/
+export_presets.cfg
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+# IDE
+.vscode/
+.idea/
+# Temporary
+tmp/
+temp/
+*.tmp

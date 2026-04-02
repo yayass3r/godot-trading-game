@@ -1,0 +1,295 @@
+[gd_scene load_steps=2 format=3 uid="uid://j4n7p2q9x6m1"]
+
+[ext_resource type="Script" path="res://scripts/ui/backtesting_ui.gd" id="1"]
+
+[node name="BacktestingScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.06, 0.06, 0.12, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="MainVBox" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="HeaderRow" type="HBoxContainer" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🧪 Backtesting"
+label_settings = SubResource("LabelSettings_bt_title")
+
+[node name="BackButton" type="Button" parent="ScrollContainer/MainVBox/HeaderRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 40)
+text = "← Back"
+
+[node name="StrategyPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="StrategyTitle" type="Label" parent="ScrollContainer/MainVBox/StrategyPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 35.0
+text = "📋 Strategy Selection"
+
+[node name="StrategyList" type="ItemList" parent="ScrollContainer/MainVBox/StrategyPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 280.0
+item_count = 5
+item_0/text = "SMA Crossover"
+item_1/text = "RSI Oversold/Overbought"
+item_2/text = "Bollinger Bounce"
+item_3/text = "MACD Signal"
+item_4/text = "Volume Spike"
+
+[node name="ConfigPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="ConfigTitle" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 35.0
+text = "⚙️ Configuration"
+
+[node name="ConfigGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ConfigPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 280.0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="SymbolLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Symbol:"
+
+[node name="SymbolInput" type="LineEdit" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "BTCUSDT"
+
+[node name="IntervalLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Interval:"
+
+[node name="IntervalOption" type="OptionButton" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+item_count = 7
+popup/item_0/text = "1m"
+popup/item_1/text = "5m"
+popup/item_1/id = 1
+popup/item_2/text = "15m"
+popup/item_2/id = 2
+popup/item_3/text = "1h"
+popup/item_3/id = 3
+popup/item_4/text = "4h"
+popup/item_4/id = 4
+popup/item_5/text = "1d"
+popup/item_5/id = 5
+popup/item_6/text = "1w"
+popup/item_6/id = 6
+selected = 3
+
+[node name="LeverageLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Leverage:"
+
+[node name="LeverageInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+min_value = 1.0
+max_value = 100.0
+value = 1.0
+
+[node name="BalanceLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Starting Balance:"
+
+[node name="BalanceInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+min_value = 100.0
+max_value = 1000000.0
+step = 100.0
+value = 10000.0
+
+[node name="TPLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Take Profit %:"
+
+[node name="TPInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+min_value = 0.1
+max_value = 100.0
+step = 0.5
+value = 5.0
+
+[node name="SLLabel" type="Label" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+text = "Stop Loss %:"
+
+[node name="SLInput" type="SpinBox" parent="ScrollContainer/MainVBox/ConfigPanel/ConfigGrid"]
+layout_mode = 2
+min_value = 0.1
+max_value = 100.0
+step = 0.5
+value = 3.0
+
+[node name="RunButton" type="Button" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+text = "🚀 Run Backtest"
+
+[node name="ProgressLabel" type="Label" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Ready"
+
+[node name="ProgressBar" type="ProgressBar" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+max_value = 100.0
+value = 0.0
+show_percentage = true
+
+[node name="ResultsPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 400)
+
+[node name="ResultsTitle" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 35.0
+text = "📊 Results"
+
+[node name="ResultsGrid" type="GridContainer" parent="ScrollContainer/MainVBox/ResultsPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 390.0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="RatingLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Rating:"
+
+[node name="RatingValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "—"
+
+[node name="ReturnLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Total Return:"
+
+[node name="ReturnValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "$0.00"
+
+[node name="ReturnPctLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Return %:"
+
+[node name="ReturnPctValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0.0%"
+
+[node name="TradesLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Total Trades:"
+
+[node name="TradesValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0"
+
+[node name="WinRateLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Win Rate:"
+
+[node name="WinRateValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0.0%"
+
+[node name="ProfitFactorLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Profit Factor:"
+
+[node name="ProfitFactorValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0.0"
+
+[node name="MaxDDLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Max Drawdown:"
+
+[node name="MaxDDValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0.0%"
+
+[node name="SharpeLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Sharpe Ratio:"
+
+[node name="SharpeValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0.0"
+
+[node name="BestStreakLabel" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "Best Win Streak:"
+
+[node name="BestStreakValue" type="Label" parent="ScrollContainer/MainVBox/ResultsPanel/ResultsGrid"]
+layout_mode = 2
+text = "0"
+
+[node name="EquityPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 250)
+
+[node name="EquityTitle" type="Label" parent="ScrollContainer/MainVBox/EquityPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 35.0
+text = "📈 Equity Curve"
+
+[node name="EquityChart" type="Control" parent="ScrollContainer/MainVBox/EquityPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 700.0
+offset_bottom = 240.0

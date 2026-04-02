@@ -1,0 +1,191 @@
+[gd_scene load_steps=2 format=3 uid="uid://k5p8r3m6w1n7"]
+
+[ext_resource type="Script" path="res://scripts/ui/tutorial_ui.gd" id="1"]
+
+[node name="TutorialScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.06, 0.06, 0.12, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+theme_override_constants/separation = 10
+
+[node name="HeaderRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "📚 Tutorials"
+label_settings = SubResource("LabelSettings_tut_title")
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HeaderRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 40)
+text = "← Back"
+
+[node name="ProgressPanel" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ProgressRow" type="HBoxContainer" parent="VBoxContainer/ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = -15.0
+offset_bottom = -12.0
+theme_override_constants/separation = 12
+
+[node name="ProgressIcon" type="Label" parent="VBoxContainer/ProgressPanel/ProgressRow"]
+layout_mode = 2
+text = "📊"
+
+[node name="ProgressLabel" type="Label" parent="VBoxContainer/ProgressPanel/ProgressRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Progress: 0 / 5 tutorials"
+
+[node name="OverallProgressBar" type="ProgressBar" parent="VBoxContainer/ProgressPanel/ProgressRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+
+[node name="TutorialList" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TutorialListVBox" type="VBoxContainer" parent="VBoxContainer/TutorialList"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Tutorial1Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="Tutorial2Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="Tutorial3Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="Tutorial4Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="Tutorial5Card" type="Panel" parent="VBoxContainer/TutorialList/TutorialListVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+
+[node name="LessonOverlay" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="OverlayVBox" type="VBoxContainer" parent="LessonOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = -20.0
+offset_bottom = -80.0
+theme_override_constants/separation = 12
+
+[node name="LessonHeader" type="HBoxContainer" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+
+[node name="LessonTitle" type="Label" parent="LessonOverlay/OverlayVBox/LessonHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lesson Title"
+
+[node name="CloseButton" type="Button" parent="LessonOverlay/OverlayVBox/LessonHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 40)
+text = "✕"
+
+[node name="StepIndicator" type="Label" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Step 1 / 3"
+
+[node name="LessonProgressBar" type="ProgressBar" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+max_value = 3.0
+value = 1.0
+
+[node name="ContentScroll" type="ScrollContainer" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContentLabel" type="Label" parent="LessonOverlay/OverlayVBox/ContentScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 2
+text = "Lesson content goes here..."
+
+[node name="KeyPointsPanel" type="Panel" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+
+[node name="KeyPointsTitle" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 30.0
+text = "💡 Key Points:"
+
+[node name="KeyPointsList" type="VBoxContainer" parent="LessonOverlay/OverlayVBox/KeyPointsPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 690.0
+offset_bottom = 120.0
+theme_override_constants/separation = 4
+
+[node name="KeyPoint1" type="Label" parent="LessonOverlay/OverlayVBox/KeyPointsPanel/KeyPointsList"]
+layout_mode = 2
+text = "• Point 1"
+
+[node name="NavigationRow" type="HBoxContainer" parent="LessonOverlay/OverlayVBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="PrevButton" type="Button" parent="LessonOverlay/OverlayVBox/NavigationRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 50)
+text = "← Previous"
+
+[node name="NextButton" type="Button" parent="LessonOverlay/OverlayVBox/NavigationRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 50)
+text = "Next →"

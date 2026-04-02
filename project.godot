@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Trading Simulator Game"
+run/main_scene="res://scenes/main_menu/main_menu.tscn"
+config/features=PackedStringArray("4.2", "Mobile")
+
+[autoload]
+
+GameManager="*res://scripts/managers/game_manager.gd"
+ProfileManager="*res://scripts/managers/profile_manager.gd"
+PortfolioManager="*res://scripts/managers/portfolio_manager.gd"
+TradingManager="*res://scripts/managers/trading_manager.gd"
+NotificationManager="*res://scripts/managers/notification_manager.gd"
+ForumManager="*res://scripts/managers/forum_manager.gd"
+LeaderboardManager="*res://scripts/managers/leaderboard_manager.gd"
+ChartManager="*res://scripts/charts/chart_manager.gd"
+SentimentAnalyzer="*res://scripts/analysis/sentiment_analyzer.gd"
+ChallengeManager="*res://scripts/challenges/challenge_manager.gd"
+BacktestingEngine="*res://scripts/backtesting/backtesting_engine.gd"
+TutorialManager="*res://scripts/tutorials/tutorial_manager.gd"
+OrderBookManager="*res://scripts/orderbook/orderbook_manager.gd"
+FirebaseManager="*res://scripts/firebase/firebase_manager.gd"
+DataManager="*res://scripts/network/data_manager.gd"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/stretch/mode="canvas_items"
+window/handheld/orientation="portrait"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

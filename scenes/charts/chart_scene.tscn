@@ -1,0 +1,155 @@
+[gd_scene load_steps=2 format=3 uid="uid://f2k8n5p7v3r1"]
+
+[ext_resource type="Script" path="res://scripts/ui/chart_ui.gd" id="1"]
+
+[node name="ChartScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+theme_override_constants/separation = 4
+
+[node name="TopBar" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/TopBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 40)
+text = "← Back"
+
+[node name="SymbolLabel" type="Label" parent="VBoxContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BTCUSDT"
+label_settings = SubResource("LabelSettings_chart_symbol")
+
+[node name="PriceInfo" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PriceRow" type="HBoxContainer" parent="VBoxContainer/PriceInfo"]
+layout_mode = 2
+
+[node name="CurrentPrice" type="Label" parent="VBoxContainer/PriceInfo/PriceRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$0.00"
+label_settings = SubResource("LabelSettings_chart_price")
+
+[node name="PriceChange" type="Label" parent="VBoxContainer/PriceInfo/PriceRow"]
+layout_mode = 2
+text = "+0.00%"
+
+[node name="TimeframeRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TF1m" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "1m"
+
+[node name="TF5m" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "5m"
+
+[node name="TF15m" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "15m"
+
+[node name="TF1h" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "1h"
+
+[node name="TF4h" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "4h"
+
+[node name="TF1d" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "1D"
+
+[node name="TF1w" type="Button" parent="VBoxContainer/TimeframeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 32)
+text = "1W"
+
+[node name="ChartPanel" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChartArea" type="Control" parent="VBoxContainer/ChartPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="CandlestickChart" type="Control" parent="VBoxContainer/ChartPanel/ChartArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 0.7
+
+[node name="VolumeChart" type="Control" parent="VBoxContainer/ChartPanel/ChartArea"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -120.0
+
+[node name="IndicatorsRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SMA9Toggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "SMA 9"
+
+[node name="SMA21Toggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "SMA 21"
+
+[node name="SMA50Toggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "SMA 50"
+
+[node name="BBToggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "BB"
+
+[node name="RSIToggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "RSI"
+
+[node name="MACDToggle" type="CheckButton" parent="VBoxContainer/IndicatorsRow"]
+layout_mode = 2
+text = "MACD"
+
+[node name="CrosshairInfo" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "O: 0.00  H: 0.00  L: 0.00  C: 0.00  V: 0"

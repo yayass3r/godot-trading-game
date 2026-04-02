@@ -1,0 +1,256 @@
+[gd_scene load_steps=2 format=3 uid="uid://m7r2t5p9w3n6"]
+
+[ext_resource type="Script" path="res://scripts/ui/settings_ui.gd" id="1"]
+
+[node name="SettingsScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.06, 0.06, 0.12, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="MainVBox" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="HeaderRow" type="HBoxContainer" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚙️ Settings"
+label_settings = SubResource("LabelSettings_set_title")
+
+[node name="BackButton" type="Button" parent="ScrollContainer/MainVBox/HeaderRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 40)
+text = "← Back"
+
+[node name="SoundPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="SoundTitle" type="Label" parent="ScrollContainer/MainVBox/SoundPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 250.0
+offset_bottom = 38.0
+text = "🔊 Sound Settings"
+label_settings = SubResource("LabelSettings_section_title")
+
+[node name="SoundContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 280.0
+theme_override_constants/separation = 14
+
+[node name="MasterVolumeRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MasterVolumeLabel" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/MasterVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+text = "Master Volume:"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/MasterVolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 70.0
+
+[node name="MasterVolumeValue" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/MasterVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 0)
+text = "70%"
+
+[node name="SFXVolumeRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SFXVolumeLabel" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/SFXVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+text = "SFX Volume:"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/SFXVolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 80.0
+
+[node name="SFXVolumeValue" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/SFXVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 0)
+text = "80%"
+
+[node name="AmbientVolumeRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AmbientVolumeLabel" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/AmbientVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+text = "Ambient Volume:"
+
+[node name="AmbientVolumeSlider" type="HSlider" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/AmbientVolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 30.0
+
+[node name="AmbientVolumeValue" type="Label" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent/AmbientVolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 0)
+text = "30%"
+
+[node name="MuteToggle" type="CheckButton" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+text = "🔇 Mute All Sounds"
+
+[node name="TickSoundToggle" type="CheckButton" parent="ScrollContainer/MainVBox/SoundPanel/SoundContent"]
+layout_mode = 2
+text = "🔔 Price Tick Sounds"
+
+[node name="NotificationsPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="NotifTitle" type="Label" parent="ScrollContainer/MainVBox/NotificationsPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 350.0
+offset_bottom = 38.0
+text = "🔔 Notifications"
+label_settings = SubResource("LabelSettings_section_title")
+
+[node name="NotifContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/NotificationsPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 220.0
+theme_override_constants/separation = 12
+
+[node name="TradeNotifToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
+text = "📊 Trade Opened/Closed"
+
+[node name="MarginCallToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
+text = "🚨 Margin Call Alerts"
+
+[node name="PriceAlertToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
+text = "💰 Price Alert Sounds"
+
+[node name="ChallengeNotifToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
+text = "🏆 Challenge Updates"
+
+[node name="SocialNotifToggle" type="CheckButton" parent="ScrollContainer/MainVBox/NotificationsPanel/NotifContent"]
+layout_mode = 2
+text = "💬 Forum Notifications"
+
+[node name="ThemePanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="ThemeTitle" type="Label" parent="ScrollContainer/MainVBox/ThemePanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 250.0
+offset_bottom = 38.0
+text = "🎨 Theme"
+label_settings = SubResource("LabelSettings_section_title")
+
+[node name="ThemeContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/ThemePanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 200.0
+theme_override_constants/separation = 12
+
+[node name="ThemeLabel" type="Label" parent="ScrollContainer/MainVBox/ThemePanel/ThemeContent"]
+layout_mode = 2
+text = "Select Theme:"
+
+[node name="ThemeOptions" type="OptionButton" parent="ScrollContainer/MainVBox/ThemePanel/ThemeContent"]
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "🌙 Dark (Default)"
+popup/item_1/text = "☀️ Light"
+popup/item_1/id = 1
+popup/item_2/text = "💚 Midnight Green"
+popup/item_2/id = 2
+
+[node name="AccountPanel" type="Panel" parent="ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="AccountTitle" type="Label" parent="ScrollContainer/MainVBox/AccountPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 38.0
+text = "👤 Account"
+label_settings = SubResource("LabelSettings_section_title")
+
+[node name="AccountContent" type="VBoxContainer" parent="ScrollContainer/MainVBox/AccountPanel"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 45.0
+offset_right = 705.0
+offset_bottom = 250.0
+theme_override_constants/separation = 12
+
+[node name="NameEditRow" type="HBoxContainer" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NameLabel" type="Label" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent/NameEditRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+text = "Player Name:"
+
+[node name="NameInput" type="LineEdit" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent/NameEditRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter name..."
+
+[node name="ResetButton" type="Button" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "🔄 Reset Progress"
+
+[node name="SaveButton" type="Button" parent="ScrollContainer/MainVBox/AccountPanel/AccountContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "💾 Save Now"
