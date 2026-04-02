@@ -5,8 +5,6 @@
 ## ============================================
 extends Node
 
-const ForumPostClass = preload("res://scripts/data_models/forum_post.gd")
-
 ## ---- إشارات (Signals) ----
 signal sentiment_updated(symbol: String, score: float, label: String)
 signal trend_alert(symbol: String, direction: String, strength: float)

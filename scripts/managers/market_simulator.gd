@@ -140,7 +140,7 @@ func _calculate_tick(symbol: String) -> float:
                         if event["sentiment"] > 0:
                                 trend_bias += event["sentiment"] * 0.01
                         else:
-                                trend_bias += event["sentiment"] * 0.01
+                                trend_bias -= abs(event["sentiment"]) * 0.015
         
         ## 5) حجم التداول (Volume Impact)
         ## أحجام عالية = حركات أكبر

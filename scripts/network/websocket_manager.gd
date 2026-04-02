@@ -88,6 +88,14 @@ func _process(delta: float) -> void:
         if _socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
                 _socket.poll()
                 
+                ## Mark connected and emit signal once
+                if not _is_connected:
+                        _is_connected = true
+                        _retry_count = 0
+                        _ping_timer.start()
+                        connected.emit()
+                        print("[WebSocket] ✅ تم الاتصال بنجاح")
+                
                 ## قراءة الرسائل المتاحة
                 while _socket.get_available_packet_count() > 0:
                         var packet := _socket.get_packet()

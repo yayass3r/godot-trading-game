@@ -123,7 +123,7 @@ func _ready() -> void:
                 player_id = str(Time.get_ticks_msec())
         created_at = Time.get_unix_time_from_system()
         last_login = Time.get_unix_time_from_system()
-        load_profile()
+        ## load_profile() is called by GameManager._ready() after all autoloads are set up
 
 ## ============================================
 ## حساب الخبرة المطلوبة للمستوى التالي

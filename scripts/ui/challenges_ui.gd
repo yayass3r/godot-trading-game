@@ -8,11 +8,11 @@ const NP = preload("res://scripts/enums/notification_priority.gd")
 
 ## ---- Node References ----
 @onready var back_button: Button = $BackButton
-@onready var daily_title: Label = $ScrollContainer/VBoxContainer/DailySection/DailyTitle
-@onready var daily_container: VBoxContainer = $ScrollContainer/VBoxContainer/DailySection/ChallengeContainer
-@onready var weekly_title: Label = $ScrollContainer/VBoxContainer/WeeklySection/WeeklyTitle
-@onready var weekly_container: VBoxContainer = $ScrollContainer/VBoxContainer/WeeklySection/ChallengeContainer
-@onready var streak_label: Label = $ScrollContainer/VBoxContainer/StreakInfo/StreakLabel
+@onready var daily_title: Label = $VBoxContainer/DailySection/DailyContent/DailyHeader
+@onready var daily_container: VBoxContainer = $VBoxContainer/DailySection/DailyContent/DailyList
+@onready var weekly_title: Label = $VBoxContainer/WeeklySection/WeeklyContent/WeeklyHeader
+@onready var weekly_container: VBoxContainer = $VBoxContainer/WeeklySection/WeeklyContent/WeeklyList
+@onready var streak_label: Label = $VBoxContainer/StreakLabel
 
 ## ---- Manager References ----
 @onready var challenge_manager: Node = get_node_or_null("/root/ChallengeManager")

@@ -7,9 +7,9 @@ extends Control
 const LBC = preload("res://scripts/enums/leaderboard_category.gd")
 
 ## ---- Node References ----
-@onready var category_tabs: TabBar = $CategoryTabs
-@onready var entries_container: VBoxContainer = $EntriesContainer
-@onready var player_rank_label: Label = $PlayerRankLabel
+@onready var category_tabs: TabBar = $VBoxContainer/CategoryTabs
+@onready var entries_container: VBoxContainer = $VBoxContainer/ScrollContainer/EntriesContainer
+@onready var player_rank_label: Label = $VBoxContainer/PlayerRankLabel
 @onready var back_button: Button = $BackButton
 
 ## ---- Manager References ----

@@ -114,7 +114,7 @@ func run_backtest(
 
                         pnl_pct *= leverage
 
-                        if pnl_pct >= take_profit_pct or pnl_pct <= -stop_loss_pct or _should_close_position(strategy, ind):
+                        if pnl_pct >= take_profit_pct or pnl_pct <= -stop_loss_pct or _should_close_position(strategy, ind, position):
                                 var trade_pnl: float = position["margin"] * pnl_pct
                                 current_equity += trade_pnl
                                 position["exit_price"] = candle["close"]
@@ -249,9 +249,12 @@ func _get_signal(strategy: Dictionary, ind: Dictionary) -> String:
 
         return "NONE"
 
-func _should_close_position(strategy: Dictionary, ind: Dictionary) -> bool:
+func _should_close_position(strategy: Dictionary, ind: Dictionary, position: Dictionary) -> bool:
         var signal_type := _get_signal(strategy, ind)
-        return (signal_type == "BUY" and ind.get("close", 0) < 0) or (signal_type == "SELL" and ind.get("close", 0) > 0)
+        if not position.is_empty():
+                var is_long: bool = position.get("is_long", true)
+                return (is_long and signal_type == "SELL") or (not is_long and signal_type == "BUY")
+        return false
 
 ## ============================================
 ## حساب نتائج الباك تيست

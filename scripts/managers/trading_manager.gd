@@ -20,8 +20,6 @@ var data_manager: Node  ## DataManager لجلب الأسعار الحية
 
 ## ---- ثوابت التداول ----
 const MIN_TRADE_SIZE: float = 0.001     ## أدنى حجم صفقة
-const MAX_LEVERAGE: int = 100            ## أقصى رافعة مالية
-const FEE_RATE: float = 0.001           ## رسوم التداول 0.1%
 const MIN_NOTIONAL_VALUE: float = 10.0  ## أدنى قيمة إجمالية للصفقة $10
 
 ## ---- أدوات متاحة للتداول ----
@@ -106,8 +104,6 @@ func open_trade(
         
         ## ===== التحقق من الرافعة المالية =====
         var max_allowed_leverage: int = profile_manager.get_max_leverage() if profile_manager else 1
-        if leverage > min(leverage, MAX_LEVERAGE):
-                leverage = min(leverage, MAX_LEVERAGE)
         if leverage > max_allowed_leverage:
                 error_occurred.emit("رافعة مالية غير متاحة. المستوى %d يسمح حتى %dx" % [profile_manager.level, max_allowed_leverage])
                 leverage = max_allowed_leverage
@@ -117,7 +113,7 @@ func open_trade(
         ## ===== حساب المبالغ المالية =====
         var notional_value: float = position_size * current_price          ## القيمة الإجمالية
         var margin_required: float = notional_value / leverage             ## الهامش المطلوب
-        var trading_fee: float = notional_value * FEE_RATE                ## الرسوم
+        var trading_fee: float = notional_value * GameConstants.TRADING_FEE_RATE                ## الرسوم
         
         ## التحقق من الحد الأدنى للقيمة الإجمالية
         if notional_value < MIN_NOTIONAL_VALUE:
@@ -270,7 +266,7 @@ func estimate_margin(position_size: float, symbol: String, leverage: int) -> Dic
         
         var notional_value := position_size * price
         var margin := notional_value / leverage
-        var fee := notional_value * FEE_RATE
+        var fee := notional_value * GameConstants.TRADING_FEE_RATE
         var liquidation_pct := (1.0 / leverage) * 100.0
         
         return {

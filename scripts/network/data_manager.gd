@@ -214,13 +214,13 @@ func get_all_prices() -> Dictionary:
 ## ===== نظام طلبات HTTP الداخلي =====
 ## ============================================
 
-func _enqueue_request(url: String, method: int, body: String, callback: Callable) -> void:
+func _enqueue_request(url: String, method: int, body: String, callback: Callable, retries: int = 0) -> void:
         _request_queue.append({
                 "url": url,
                 "method": method,
                 "body": body,
                 "callback": callback,
-                "retries": 0
+                "retries": retries
         })
         _process_queue()
 
@@ -237,7 +237,7 @@ func _process_queue() -> void:
                 
                 var request: Dictionary = _request_queue.pop_front()
                 _active_requests += 1
-                _http_callback_map[available_http.get_instance_id()] = request["callback"]
+                _http_callback_map[available_http.get_instance_id()] = request
                 
                 var headers := ["Content-Type: application/json"]
                 var err := available_http.request(request["url"], headers, request["method"], request["body"])
@@ -248,13 +248,21 @@ func _process_queue() -> void:
 func _on_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray, http: HTTPRequest) -> void:
         _active_requests -= 1
         
-        if result != HTTPRequest.RESULT_SUCCESS:
-                print("[DataManager] ❌ خطأ في الطلب: كود %d" % response_code)
-                _process_queue()
-                return
+        var request: Dictionary = _http_callback_map.get(http.get_instance_id(), {})
+        _http_callback_map.erase(http.get_instance_id())
         
-        if response_code != 200:
-                print("[DataManager] ❌ استجابة غير ناجحة: HTTP %d" % response_code)
+        if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
+                print("[DataManager] ❌ خطأ في الطلب: كود %d" % response_code)
+                var retries: int = request.get("retries", 0)
+                if retries < MAX_RETRIES:
+                        _enqueue_request(
+                                request.get("url", ""),
+                                request.get("method", HTTPClient.METHOD_GET),
+                                request.get("body", ""),
+                                request.get("callback", Callable()),
+                                retries + 1
+                        )
+                        print("[DataManager] 🔄 إعادة الطلب (محاولة %d/%d)" % [retries + 1, MAX_RETRIES])
                 _process_queue()
                 return
         
@@ -268,10 +276,9 @@ func _on_request_completed(result: int, response_code: int, _headers: PackedStri
                 return
         
         ## معالجة البيانات وإرسالها للcallback المرتبط بالطلب المكتمل
-        var callback: Callable = _http_callback_map.get(http.get_instance_id(), Callable())
+        var callback: Callable = request.get("callback", Callable())
         if callback.is_valid():
                 callback.call(json.data)
-        _http_callback_map.erase(http.get_instance_id())
         
         _process_queue()
 

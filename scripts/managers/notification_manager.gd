@@ -43,9 +43,7 @@ static func send_notification(
 ) -> void:
         var manager: Node = Engine.get_main_loop().root.get_node_or_null("/root/NotificationManager")
         if manager == null:
-                manager = load("res://scripts/managers/notification_manager.gd").new()
-                Engine.get_main_loop().root.add_child(manager)
-        
+                return
         manager._show_notification(title, message, priority, show_vibration)
 
 ## ============================================

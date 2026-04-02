@@ -7,21 +7,21 @@ extends Control
 const NP = preload("res://scripts/enums/notification_priority.gd")
 
 ## ---- Node References ----
-@onready var back_button: Button = $VBoxContainer/BackButton
-@onready var save_button: Button = $ScrollContainer/VBoxContainer/SaveButton
-@onready var reset_button: Button = $ScrollContainer/VBoxContainer/AccountPanel/ResetButton
+@onready var back_button: Button = $BackButton
+@onready var save_button: Button = $ScrollContainer/MainVBox/AccountPanel/AccountContent/SaveButton
+@onready var reset_button: Button = $ScrollContainer/MainVBox/AccountPanel/AccountContent/ResetButton
 
 ## Sound settings nodes
-@onready var master_volume: HSlider = $ScrollContainer/VBoxContainer/SoundPanel/MasterVolume
-@onready var sfx_volume: HSlider = $ScrollContainer/VBoxContainer/SoundPanel/SFXVolume
-@onready var ambient_volume: HSlider = $ScrollContainer/VBoxContainer/SoundPanel/AmbientVolume
-@onready var mute_toggle: CheckButton = $ScrollContainer/VBoxContainer/SoundPanel/MuteToggle
+@onready var master_volume: HSlider = $ScrollContainer/MainVBox/SoundPanel/SoundContent/MasterVolumeRow/MasterVolumeSlider
+@onready var sfx_volume: HSlider = $ScrollContainer/MainVBox/SoundPanel/SoundContent/SFXVolumeRow/SFXVolumeSlider
+@onready var ambient_volume: HSlider = $ScrollContainer/MainVBox/SoundPanel/SoundContent/AmbientVolumeRow/AmbientVolumeSlider
+@onready var mute_toggle: CheckButton = $ScrollContainer/MainVBox/SoundPanel/SoundContent/MuteToggle
 
 ## Account settings nodes
-@onready var name_input: LineEdit = $ScrollContainer/VBoxContainer/AccountPanel/NameInput
+@onready var name_input: LineEdit = $ScrollContainer/MainVBox/AccountPanel/AccountContent/NameEditRow/NameInput
 
 ## Theme settings nodes
-@onready var theme_option: OptionButton = $ScrollContainer/VBoxContainer/ThemePanel/ThemeOption
+@onready var theme_option: OptionButton = $ScrollContainer/MainVBox/ThemePanel/ThemeContent/ThemeOptions
 
 ## ---- Manager References ----
 @onready var profile_manager: Node = get_node_or_null("/root/ProfileManager")
@@ -85,11 +85,11 @@ func _load_settings() -> void:
 ## ============================================
 func _apply_settings_to_ui() -> void:
         if master_volume:
-                master_volume.value = settings.get("master_volume", 0.8)
+                master_volume.value = settings.get("master_volume", 0.8) * 100.0
         if sfx_volume:
-                sfx_volume.value = settings.get("sfx_volume", 0.7)
+                sfx_volume.value = settings.get("sfx_volume", 0.7) * 100.0
         if ambient_volume:
-                ambient_volume.value = settings.get("ambient_volume", 0.5)
+                ambient_volume.value = settings.get("ambient_volume", 0.5) * 100.0
         if mute_toggle:
                 mute_toggle.button_pressed = settings.get("muted", false)
         if name_input:
@@ -113,11 +113,11 @@ func _on_save_pressed() -> void:
 
 func _read_settings_from_ui() -> void:
         if master_volume:
-                settings["master_volume"] = master_volume.value
+                settings["master_volume"] = master_volume.value / 100.0
         if sfx_volume:
-                settings["sfx_volume"] = sfx_volume.value
+                settings["sfx_volume"] = sfx_volume.value / 100.0
         if ambient_volume:
-                settings["ambient_volume"] = ambient_volume.value
+                settings["ambient_volume"] = ambient_volume.value / 100.0
         if mute_toggle:
                 settings["muted"] = mute_toggle.button_pressed
         if name_input:

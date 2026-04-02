@@ -8,12 +8,12 @@ const ForumPostClass = preload("res://scripts/data_models/forum_post.gd")
 const NP = preload("res://scripts/enums/notification_priority.gd")
 
 ## ---- Node References ----
-@onready var posts_container: ScrollContainer = $PostsContainer
-@onready var post_list: VBoxContainer = $PostsContainer/PostList
-@onready var new_post_input: TextEdit = $NewPostPanel/PostInput
-@onready var symbol_input: LineEdit = $NewPostPanel/SymbolInput
-@onready var post_type_option: OptionButton = $NewPostPanel/PostTypeOption
-@onready var submit_button: Button = $NewPostPanel/SubmitButton
+@onready var posts_container: VBoxContainer = $VBoxContainer/PostsContainer
+@onready var post_list: ItemList = $VBoxContainer/PostsContainer/PostList
+@onready var new_post_input: TextEdit = $VBoxContainer/NewPostPanel/PostContent/PostInput
+@onready var symbol_input: LineEdit = $VBoxContainer/NewPostPanel/PostContent/SymbolRow/SymbolInput
+@onready var post_type_option: OptionButton = $VBoxContainer/NewPostPanel/PostContent/PostTypeRow/PostTypeOption
+@onready var submit_button: Button = $VBoxContainer/NewPostPanel/PostContent/SubmitButton
 @onready var back_button: Button = $BackButton
 
 ## ---- Manager References ----

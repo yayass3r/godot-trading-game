@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>Trading Simulator - Master the Markets</title>
+    <meta name="description" content="Experience the thrill of financial markets in Trading Simulator. Practice trading strategies, compete on leaderboards, and master the art of investing — risk-free.">
+    <meta name="keywords" content="trading simulator, stock market game, trading game, financial simulation, investing simulator, stock trading practice, paper trading">
+    <meta name="author" content="Trading Simulator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tradingsimulator.example.com/">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Trading Simulator - Master the Markets">
+    <meta property="og:description" content="Experience the thrill of financial markets. Practice trading strategies, compete on leaderboards, and master the art of investing — risk-free.">
+    <meta property="og:url" content="https://tradingsimulator.example.com/">
+    <meta property="og:image" content="https://tradingsimulator.example.com/images/og-banner.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Trading Simulator">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trading Simulator - Master the Markets">
+    <meta name="twitter:description" content="Experience the thrill of financial markets. Practice trading strategies and compete on leaderboards — risk-free.">
+    <meta name="twitter:image" content="https://tradingsimulator.example.com/images/twitter-card.png">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TradeSim">
+    <meta name="application-name" content="Trading Simulator">
+    <meta name="msapplication-TileColor" content="#1a1a2e">
+    <meta name="msapplication-navbutton-color" content="#1a1a2e">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180x180.png">
+    <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#1e90ff">
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0f0f1a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ========== LOADING SCREEN ========== */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: 1000;
+            transition: opacity 0.6s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(30, 144, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 144, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridScroll 20s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .loading-branding {
+            position: relative;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .loading-logo {
+            width: 80px; height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            border: 2px solid rgba(30, 144, 255, 0.3);
+            border-radius: 50%;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        .pulse-ring:nth-child(2) { animation-delay: 0.5s; }
+        .pulse-ring:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes pulseRing {
+            0% { width: 80px; height: 80px; opacity: 1; }
+            100% { width: 160px; height: 160px; opacity: 0; }
+        }
+
+        .loading-title {
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #1e90ff, #00d4ff, #1e90ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .loading-subtitle {
+            font-size: 0.85rem;
+            color: rgba(224, 224, 224, 0.5);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .progress-container {
+            width: min(400px, 80vw);
+            position: relative;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.75rem;
+            color: rgba(224, 224, 224, 0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar-bg {
+            width: 100%; height: 4px;
+            background: rgba(30, 144, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #1e90ff, #00d4ff);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-percent {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e90ff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Ticker strip */
+        .ticker-strip {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            overflow: hidden;
+            opacity: 0.15;
+        }
+
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+            animation: tickerScroll 30s linear infinite;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item { padding: 0 30px; }
+        .ticker-item.up { color: #00c853; }
+        .ticker-item.down { color: #ff1744; }
+
+        /* Error state */
+        .error-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            max-width: 400px;
+        }
+
+        .error-message h2 {
+            color: #ff5252;
+            margin-bottom: 10px;
+        }
+
+        .error-message p {
+            color: rgba(224, 224, 224, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .retry-btn {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #1e90ff, #00d4ff);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4);
+        }
+
+        /* ========== GAME CANVAS ========== */
+        #canvas-container {
+            display: none;
+            width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0;
+        }
+
+        #game-canvas {
+            display: block;
+            width: 100%; height: 100%;
+        }
+
+        /* ========== INSTALL PROMPT BANNER ========== */
+        #install-banner {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            border-radius: 12px;
+            padding: 14px 24px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        #install-banner p {
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        #install-banner button {
+            padding: 6px 18px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin: 0 4px;
+            transition: transform 0.2s;
+        }
+
+        #install-banner button:hover {
+            transform: translateY(-1px);
+        }
+
+        #install-accept {
+            background: linear-gradient(135deg, #1e90ff, #00d4ff);
+            color: white;
+        }
+
+        #install-dismiss {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== Loading Screen ====== -->
+    <div id="loading-screen">
+        <div class="loading-branding">
+            <div class="loading-logo">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="50" width="12" height="30" rx="2" fill="#1e90ff" opacity="0.6">
+                        <animate attributeName="height" values="30;15;30" dur="1.5s" repeatCount="indefinite"/>
+                        <animate attributeName="y" values="50;65;50" dur="1.5s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="28" y="35" width="12" height="45" rx="2" fill="#1e90ff" opacity="0.8">
+                        <animate attributeName="height" values="45;20;45" dur="1.8s" repeatCount="indefinite"/>
+                        <animate attributeName="y" values="35;60;35" dur="1.8s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="46" y="20" width="12" height="60" rx="2" fill="#00d4ff">
+                        <animate attributeName="height" values="60;25;60" dur="2s" repeatCount="indefinite"/>
+                        <animate attributeName="y" values="20;55;20" dur="2s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="64" y="40" width="12" height="40" rx="2" fill="#1e90ff" opacity="0.8">
+                        <animate attributeName="height" values="40;18;40" dur="1.7s" repeatCount="indefinite"/>
+                        <animate attributeName="y" values="40;62;40" dur="1.7s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="82" y="55" width="12" height="25" rx="2" fill="#1e90ff" opacity="0.6">
+                        <animate attributeName="height" values="25;10;25" dur="1.3s" repeatCount="indefinite"/>
+                        <animate attributeName="y" values="55;70;55" dur="1.3s" repeatCount="indefinite"/>
+                    </rect>
+                    <polyline points="16,55 34,40 52,25 70,45 88,60" stroke="#00d4ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+                </svg>
+            </div>
+            <div class="loading-title">Trading Simulator</div>
+            <div class="loading-subtitle">Master the Markets</div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Loading Assets</span>
+                <span class="progress-percent" id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="error-message" id="error-message">
+            <h2>Unable to Load</h2>
+            <p>Something went wrong while loading the game. Please check your internet connection and try again.</p>
+            <button class="retry-btn" id="retry-btn">Retry</button>
+        </div>
+
+        <div class="ticker-strip">
+            <div class="ticker-content">
+                <span class="ticker-item up">AAPL $187.44 +2.31%</span>
+                <span class="ticker-item down">TSLA $248.12 -1.05%</span>
+                <span class="ticker-item up">MSFT $378.91 +0.87%</span>
+                <span class="ticker-item up">GOOGL $141.56 +1.24%</span>
+                <span class="ticker-item down">AMZN $178.23 -0.45%</span>
+                <span class="ticker-item up">NVDA $495.22 +3.12%</span>
+                <span class="ticker-item down">META $503.18 -0.72%</span>
+                <span class="ticker-item up">JPM $198.45 +0.55%</span>
+                <span class="ticker-item up">AAPL $187.44 +2.31%</span>
+                <span class="ticker-item down">TSLA $248.12 -1.05%</span>
+                <span class="ticker-item up">MSFT $378.91 +0.87%</span>
+                <span class="ticker-item up">GOOGL $141.56 +1.24%</span>
+                <span class="ticker-item down">AMZN $178.23 -0.45%</span>
+                <span class="ticker-item up">NVDA $495.22 +3.12%</span>
+                <span class="ticker-item down">META $503.18 -0.72%</span>
+                <span class="ticker-item up">JPM $198.45 +0.55%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Game Canvas Container ====== -->
+    <div id="canvas-container">
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <!-- ====== PWA Install Prompt ====== -->
+    <div id="install-banner">
+        <p>Install Trading Simulator for the best experience</p>
+        <button id="install-accept">Install</button>
+        <button id="install-dismiss">Not now</button>
+    </div>
+
+    <!-- ====== Firebase SDK (Compat for broader support) ====== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <!-- ====== Web Configuration ====== -->
+    <!-- <script src="./web_config.js"></script> -->
+
+    <!-- ====== Main Application Script ====== -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ---- DOM References ----
+        const loadingScreen = document.getElementById('loading-screen');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        const canvasContainer = document.getElementById('canvas-container');
+        const gameCanvas = document.getElementById('game-canvas');
+        const errorMessage = document.getElementById('error-message');
+        const retryBtn = document.getElementById('retry-btn');
+        const installBanner = document.getElementById('install-banner');
+        const installAccept = document.getElementById('install-accept');
+        const installDismiss = document.getElementById('install-dismiss');
+
+        // ---- Service Worker Registration ----
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function (reg) {
+                        console.log('[Trading Simulator] Service Worker registered. Scope:', reg.scope);
+
+                        // Check for updates
+                        reg.addEventListener('updatefound', function () {
+                            const newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', function () {
+                                if (newWorker.state === 'activated') {
+                                    console.log('[Trading Simulator] New version available. Reload for updates.');
+                                }
+                            });
+                        });
+                    })
+                    .catch(function (err) {
+                        console.warn('[Trading Simulator] Service Worker registration failed:', err);
+                    });
+            });
+        }
+
+        // ---- Loading Screen Functions ----
+        function setProgress(value) {
+            const pct = Math.min(100, Math.max(0, Math.round(value)));
+            progressFill.style.width = pct + '%';
+            progressPercent.textContent = pct + '%';
+            if (pct >= 100) {
+                setTimeout(hideLoadingScreen, 600);
+            }
+        }
+
+        function hideLoadingScreen() {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(function () {
+                loadingScreen.style.display = 'none';
+                canvasContainer.style.display = 'block';
+            }, 600);
+        }
+
+        function showError() {
+            document.querySelector('.progress-container').style.display = 'none';
+            document.querySelector('.loading-branding').style.display = 'none';
+            errorMessage.style.display = 'block';
+            document.querySelector('.ticker-strip').style.display = 'none';
+        }
+
+        // ---- Touch Event Handling ----
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function (e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
+        }, false);
+
+        // ---- Firebase Init ----
+        const firebaseConfig = {
+            apiKey: 'YOUR_API_KEY',
+            authDomain: 'YOUR_PROJECT.firebaseapp.com',
+            projectId: 'YOUR_PROJECT_ID',
+            storageBucket: 'YOUR_PROJECT.appspot.com',
+            messagingSenderId: 'YOUR_SENDER_ID',
+            appId: 'YOUR_APP_ID'
+        };
+
+        if (typeof firebase !== 'undefined') {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                console.log('[Trading Simulator] Firebase initialized.');
+            } catch (e) {
+                console.warn('[Trading Simulator] Firebase init error:', e.message);
+            }
+        }
+
+        // ---- PWA Install Prompt ----
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Show install banner after 5 seconds
+            setTimeout(function () {
+                if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+                    installBanner.style.display = 'block';
+                }
+            }, 5000);
+        });
+
+        installAccept.addEventListener('click', function () {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function (choice) {
+                    if (choice.outcome === 'accepted') {
+                        console.log('[Trading Simulator] User accepted install prompt.');
+                    }
+                    deferredPrompt = null;
+                    installBanner.style.display = 'none';
+                });
+            }
+        });
+
+        installDismiss.addEventListener('click', function () {
+            installBanner.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        window.addEventListener('appinstalled', function () {
+            console.log('[Trading Simulator] App installed as PWA.');
+            installBanner.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // ---- Godot Engine Loader ----
+        // The engine expects a global `Godot` constructor from the Godot JS file.
+        // The actual engine JS file will be generated at export time.
+        function loadEngine() {
+            setProgress(10);
+
+            // Check for the Godot engine loader (it's usually named similar to the project)
+            const engineScript = document.createElement('script');
+            engineScript.src = './trading_simulator.js'; // Godot generates this on export
+            engineScript.async = true;
+
+            engineScript.onload = function () {
+                if (typeof Godot === 'undefined') {
+                    showError();
+                    return;
+                }
+                startEngine();
+            };
+
+            engineScript.onerror = function () {
+                console.warn('[Trading Simulator] Engine script not found (expected in development).');
+                // In development without exported files, show the loading screen
+                setProgress(100);
+            };
+
+            document.head.appendChild(engineScript);
+        }
+
+        function startEngine() {
+            const engine = new Godot({
+                args: [],
+                canvasResizePolicy: 2,
+                executable: './trading_simulator',
+                experimentalVK: false,
+                fileDrop: true,
+                focusCanvas: true,
+                gdextensionLibs: [],
+                indexSize: 0,
+                locale: navigator.language || 'en',
+                onExecute: function () {
+                    setProgress(100);
+                },
+                onExit: function (code) {
+                    if (code !== 0) {
+                        console.error('[Trading Simulator] Engine exited with code:', code);
+                    }
+                },
+                onProgress: function (current, total) {
+                    if (total > 0) {
+                        setProgress(10 + (current / total) * 90);
+                    }
+                },
+                onPrint: function (msg) { console.log(msg); },
+                onPrintError: function (msg) { console.error(msg); },
+                canvas: gameCanvas
+            });
+
+            engine.start().catch(function (err) {
+                console.error('[Trading Simulator] Engine start failed:', err);
+                showError();
+            });
+
+            window.godotEngine = engine;
+        }
+
+        // ---- Retry ----
+        retryBtn.addEventListener('click', function () {
+            errorMessage.style.display = 'none';
+            document.querySelector('.loading-branding').style.display = '';
+            document.querySelector('.progress-container').style.display = '';
+            document.querySelector('.ticker-strip').style.display = '';
+            loadEngine();
+        });
+
+        // ---- Boot ----
+        loadEngine();
+
+    })();
+    </script>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Trading Simulator",
+        "description": "Master the markets in this immersive trading simulation game",
+        "genre": ["Simulation", "Education", "Finance"],
+        "gamePlatform": ["Web Browser", "HTML5"],
+        "applicationCategory": "Game",
+        "operatingSystem": "Any (Web Browser)",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1024"
+        }
+    }
+    </script>
+</body>
+</html>

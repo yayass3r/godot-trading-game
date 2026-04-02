@@ -17,7 +17,6 @@ signal liquidation_executed(trade, loss_amount: float)
 const MARGIN_CALL_THRESHOLD: float = 0.50    ## تنبيه عند استخدام 50% من الهامش
 const STOP_OUT_THRESHOLD: float = 0.30        ## إيقاف عند استخدام 70% من الهامش
 const MAX_PORTFOLIO_RISK: float = 0.80        ## أقصى مخاطرة للمحفظة 80%
-const TRADING_FEE_RATE: float = 0.001         ## رسوم التداول 0.1%
 
 ## ---- الصفقات المفتوحة والمغلقة ----
 var open_trades: Array = []
@@ -175,7 +174,7 @@ func _check_take_profit_stop_loss() -> void:
         for trade in open_trades:
                 var should_close := false
                 
-                ## جني الأرباح
+                ## جني الأرباح (يُتحقق أولاً - له الأولوية)
                 if trade.take_profit > 0.0:
                         match trade.trade_type:
                                 TradeClass.TradeType.LONG:
@@ -183,8 +182,8 @@ func _check_take_profit_stop_loss() -> void:
                                 TradeClass.TradeType.SHORT:
                                         should_close = trade.current_price <= trade.take_profit
                 
-                ## وقف الخسارة
-                if trade.stop_loss > 0.0:
+                ## وقف الخسارة (يُتحقق فقط إذا لم يُثار جني الأرباح)
+                if not should_close and trade.stop_loss > 0.0:
                         match trade.trade_type:
                                 TradeClass.TradeType.LONG:
                                         should_close = trade.current_price <= trade.stop_loss
@@ -209,18 +208,18 @@ func close_trade(trade, reason: String = "يدوي") -> float:
         trade.exit_price = trade.current_price
         trade.calculate_unrealized_pnl()
         
-        ## خصم الرسوم
-        var fee: float = abs(trade.position_size * trade.entry_price * TRADING_FEE_RATE)
-        trade.fees_paid = fee
-        trade.pnl -= fee
+        ## Opening fee was already deducted in TradingManager.open_trade()
+        ## Do NOT deduct fees again here — just use raw PnL.
+        ## Keep the opening fee record that was stored on the trade at open.
         
         ## تحديث حالة الصفقة
         trade.close_time = Time.get_unix_time_from_system()
         trade.status = TradeClass.TradeStatus.CLOSED
         
         ## تحديث رصيد اللاعب عبر ProfileManager
+        ## Return margin + add PnL (opening fee already paid, no double-deduction)
         if profile_manager:
-                profile_manager.balance += trade.pnl
+                profile_manager.balance += trade.margin_used + trade.pnl
                 profile_manager.update_trade_stats({
                         "pnl": trade.pnl,
                         "fees": trade.fees_paid,
